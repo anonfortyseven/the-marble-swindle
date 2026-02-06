@@ -1,0 +1,221 @@
+{
+  "id": "general_store",
+  "name": "Sutter's General Store",
+  "background": "bg_general_store",
+  "music": "music_general_store",
+  "walkableArea": {
+    "points": [
+      { "x": 80, "y": 420 },
+      { "x": 880, "y": 420 },
+      { "x": 880, "y": 580 },
+      { "x": 80, "y": 580 }
+    ]
+  },
+  "exits": [
+    {
+      "id": "to_sinkhole",
+      "targetRoom": "sinkhole",
+      "targetPosition": { "x": 150, "y": 450 },
+      "polygon": {
+        "points": [
+          { "x": 900, "y": 400 },
+          { "x": 960, "y": 400 },
+          { "x": 960, "y": 580 },
+          { "x": 900, "y": 580 }
+        ]
+      },
+      "cursor": "exit"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "maybelle",
+      "name": "Maybelle Sutter",
+      "polygon": {
+        "points": [
+          { "x": 300, "y": 280 },
+          { "x": 420, "y": 280 },
+          { "x": 420, "y": 420 },
+          { "x": 300, "y": 420 }
+        ]
+      },
+      "interactionPoint": { "x": 360, "y": 450 },
+      "cursor": "talk",
+      "lookScript": [
+        { "type": "narrate", "text": "A stern-looking woman in her fifties, with silver-streaked hair pulled back tight. She watches you with knowing eyes." }
+      ],
+      "talkScript": [
+        { "type": "startDialogue", "characterId": "maybelle" }
+      ]
+    },
+    {
+      "id": "counter",
+      "name": "Store Counter",
+      "polygon": {
+        "points": [
+          { "x": 250, "y": 350 },
+          { "x": 500, "y": 350 },
+          { "x": 500, "y": 420 },
+          { "x": 250, "y": 420 }
+        ]
+      },
+      "interactionPoint": { "x": 380, "y": 450 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A worn wooden counter, polished smooth by years of transactions. Silver dollars are stacked neatly to one side." }
+      ],
+      "useScript": [
+        { "type": "say", "character": "Maybelle", "text": "You need to buy something? Or just here to gawk?" }
+      ]
+    },
+    {
+      "id": "shelves",
+      "name": "Store Shelves",
+      "polygon": {
+        "points": [
+          { "x": 40, "y": 100 },
+          { "x": 240, "y": 100 },
+          { "x": 240, "y": 400 },
+          { "x": 40, "y": 400 }
+        ]
+      },
+      "interactionPoint": { "x": 180, "y": 450 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "Dusty shelves stocked with canned goods, tools, and mining supplies. A coil of new hemp rope hangs from a peg." },
+        {
+          "type": "if",
+          "condition": "getFlag('need_rope_for_pulley') && !hasItem('new_rope')",
+          "then": [
+            { "type": "thought", "text": "That rope looks sturdy. Exactly what I need for the pulley system." }
+          ]
+        }
+      ],
+      "useScript": [
+        {
+          "type": "if",
+          "condition": "getFlag('need_rope_for_pulley') && !hasItem('new_rope')",
+          "then": [
+            { "type": "say", "character": "Clem", "text": "I'd like to buy that rope, please." },
+            { "type": "say", "character": "Maybelle", "text": "That's fifty feet of good hemp. Two dollars." },
+            {
+              "type": "if",
+              "condition": "hasItem('silver_dollar')",
+              "then": [
+                { "type": "thought", "text": "I only have one silver dollar. I'll need to find another way to pay for it." }
+              ],
+              "else": [
+                { "type": "thought", "text": "I don't have any money. I'll need to find some or trade for it." }
+              ]
+            }
+          ],
+          "else": [
+            { "type": "thought", "text": "Nothing I need here right now." }
+          ]
+        }
+      ],
+      "useWithItem": {
+        "silver_dollar": [
+          {
+            "type": "if",
+            "condition": "getFlag('need_rope_for_pulley') && !hasItem('new_rope')",
+            "then": [
+              { "type": "say", "character": "Clem", "text": "Will this silver dollar cover the rope?" },
+              { "type": "say", "character": "Maybelle", "text": "That's only half. But I'll tell you what — do me a favor, and we'll call it even." },
+              { "type": "setFlag", "flag": "maybelle_favor_owed", "value": true },
+              { "type": "thought", "text": "A favor for Maybelle. I wonder what she needs." }
+            ],
+            "else": [
+              { "type": "thought", "text": "I don't need to buy anything right now." }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "mail_cubbies",
+      "name": "Mail Cubbies",
+      "polygon": {
+        "points": [
+          { "x": 600, "y": 100 },
+          { "x": 800, "y": 100 },
+          { "x": 800, "y": 300 },
+          { "x": 600, "y": 300 }
+        ]
+      },
+      "interactionPoint": { "x": 700, "y": 450 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A wall of small wooden cubbies for mail sorting. Most are empty, but a few still have unclaimed letters." },
+        {
+          "type": "if",
+          "condition": "!getFlag('noticed_unclaimed_mail')",
+          "then": [
+            { "type": "thought", "text": "Some of those letters look old. I wonder if any belonged to Uncle Cornelius." },
+            { "type": "setFlag", "flag": "noticed_unclaimed_mail", "value": true }
+          ]
+        }
+      ],
+      "useScript": [
+        { "type": "say", "character": "Maybelle", "text": "Those are private letters. I can't let you go through them." },
+        {
+          "type": "if",
+          "condition": "getFlag('maybelle_favor_done')",
+          "then": [
+            { "type": "say", "character": "Maybelle", "text": "...but I suppose I could make an exception, after what you did for me." },
+            { "type": "narrate", "text": "Maybelle steps aside and lets you look through the unclaimed mail." },
+            {
+              "type": "if",
+              "condition": "!getFlag('found_cornelius_letter')",
+              "then": [
+                { "type": "narrate", "text": "You find a letter addressed to 'C. Buckley, c/o General Delivery, Marmaros.' It's from a university in St. Louis." },
+                { "type": "giveItem", "itemId": "cornelius_letter" },
+                { "type": "setFlag", "flag": "found_cornelius_letter", "value": true },
+                { "type": "puzzleSolved", "puzzleId": "find_cornelius_letter" }
+              ],
+              "else": [
+                { "type": "thought", "text": "Nothing else here for me." }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "window",
+      "name": "Store Window",
+      "polygon": {
+        "points": [
+          { "x": 500, "y": 50 },
+          { "x": 600, "y": 50 },
+          { "x": 600, "y": 200 },
+          { "x": 500, "y": 200 }
+        ]
+      },
+      "interactionPoint": { "x": 550, "y": 450 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "Through the dusty window, you can see the road leading to the sinkhole. A few burned buildings stand in the distance." },
+        { "type": "thought", "text": "This place must have been thriving once. Before the Bald Knobbers came." }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "id": "maybelle_sprite",
+      "characterId": "maybelle",
+      "position": { "x": 360, "y": 420 },
+      "facing": "right"
+    }
+  ],
+  "onEnter": [
+    {
+      "type": "if",
+      "condition": "!hasVisitedRoom('general_store')",
+      "then": [
+        { "type": "narrate", "text": "The bell above the door jingles as you enter Sutter's General Store — the only shop still open in Marmaros." },
+        { "type": "say", "character": "Maybelle", "text": "Well now, you're a new face. Don't get many travelers since the mine closed." }
+      ]
+    }
+  ]
+}
