@@ -11,20 +11,15 @@ import DialogueBox from '@/components/DialogueBox';
 import HotspotLabel from '@/components/HotspotLabel';
 import SaveLoadMenu from '@/components/SaveLoadMenu';
 import { GameScene } from '@/engine/GameScene';
-import { ItemDefinition, RoomDefinition, Hotspot } from '@/types/game';
+import { ItemDefinition, Hotspot } from '@/types/game';
 import { addScriptEventListener } from '@/engine/ScriptRunner';
-import { loadDialogueFromJSON } from '@/engine/DialogueLoader';
 import { useAutoSave } from '@/hooks/useGameState';
-
-// Import JSON data
-import itemsData from '@/data/items/items.json';
-import sinkholeRoom from '@/data/rooms/sinkhole.json';
-import generalStoreRoom from '@/data/rooms/general_store.json';
-import maybelleDialogueData from '@/data/dialogue/maybelle.json';
-import lynchDialogueData from '@/data/dialogue/lynch.json';
-
-// Type assertion helpers for JSON imports
-import type { DialogueFile } from '@/types/dialogue';
+import {
+  initializeGameData,
+  isGameDataInitialized,
+  getAllRooms,
+  getAllItems,
+} from '@/data';
 
 // Dynamic import for Phaser (client-side only)
 const PhaserGame = dynamic(() => import('@/components/PhaserGame'), {
@@ -59,28 +54,31 @@ export default function GamePage() {
 
   // Initialize items and dialogues
   useEffect(() => {
+    if (!isGameDataInitialized()) {
+      initializeGameData();
+    }
+
     // Populate items map from JSON
-    for (const item of itemsData.items as ItemDefinition[]) {
+    for (const item of getAllItems()) {
       itemsMap.current.set(item.id, item);
     }
 
-    // Load dialogue files (cast to unknown first to avoid strict type checking on JSON)
-    loadDialogueFromJSON(maybelleDialogueData as unknown as DialogueFile);
-    loadDialogueFromJSON(lynchDialogueData as unknown as DialogueFile);
-
     // Set up character portraits
-    portraitsMap.current.set('Maybelle', '/images/portraits/maybelle_neutral.png');
-    portraitsMap.current.set('Lynch', '/images/portraits/lynch_neutral.png');
-    portraitsMap.current.set('Clem', '/images/portraits/clem_neutral.png');
+    portraitsMap.current.set('Maybelle', '/assets/sprites/maybelle.png');
+    portraitsMap.current.set('Lynch', '/assets/sprites/clem_buckley.png');
+    portraitsMap.current.set('Clem', '/assets/sprites/clem_buckley.png');
+    portraitsMap.current.set('Jasper', '/assets/sprites/bartender.png');
+    portraitsMap.current.set('Bartender', '/assets/sprites/bartender.png');
   }, []);
 
   const handleSceneReady = useCallback((scene: GameScene) => {
     // Register rooms
-    scene.registerRoom(sinkholeRoom as unknown as RoomDefinition);
-    scene.registerRoom(generalStoreRoom as unknown as RoomDefinition);
+    for (const room of getAllRooms()) {
+      scene.registerRoom(room);
+    }
 
     // Register items
-    for (const item of itemsData.items as ItemDefinition[]) {
+    for (const item of getAllItems()) {
       scene.registerItem(item);
     }
 

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --font-serif: 'Crimson Pro', Georgia, serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-serif: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-mono: "Courier New", Courier, monospace;
 }
 
 /* Pixel art rendering */

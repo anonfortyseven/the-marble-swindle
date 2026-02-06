@@ -45,6 +45,7 @@ export class GameScene extends Phaser.Scene {
   private background!: Phaser.GameObjects.Image;
   private debugGraphics!: Phaser.GameObjects.Graphics;
   private fadeOverlay!: Phaser.GameObjects.Rectangle;
+  private roomCharacterSprites: Phaser.GameObjects.Image[] = [];
 
   // Player
   private player!: Phaser.GameObjects.Sprite;
@@ -75,19 +76,29 @@ export class GameScene extends Phaser.Scene {
   preload(): void {
     // Load placeholder assets for development
     this.load.image('placeholder_bg', '/images/placeholder_room.png');
+    this.load.image('player_clem', '/assets/sprites/clem_buckley.png');
     this.load.spritesheet('player', '/images/sprites/player.png', {
       frameWidth: 48,
       frameHeight: 96,
     });
+    this.load.image('bg_sinkhole', '/assets/backgrounds/sinkhole.png');
+    this.load.image('bg_town_square', '/assets/backgrounds/town_square.png');
+    this.load.image('bg_saloon', '/assets/backgrounds/saloon.png');
+    this.load.image('bg_cathedral_room', '/assets/backgrounds/cathedral_room.png');
+    this.load.image('bg_general_store', '/assets/backgrounds/general_store.png');
+    this.load.image('bg_lynch_homestead', '/assets/backgrounds/lynch_homestead.png');
+    this.load.image('bg_assay_office', '/assets/backgrounds/assay_office.png');
+    this.load.image('bg_spring_room', '/assets/backgrounds/underground_lake.png');
+    this.load.image('char_bartender', '/assets/sprites/bartender.png');
+    this.load.image('char_drunk_miner', '/assets/sprites/drunk_miner.png');
+    this.load.image('char_maybelle', '/assets/sprites/maybelle.png');
+    this.load.image('char_osage_elder', '/assets/sprites/osage_elder.png');
+    this.load.image('char_assay_clerk', '/assets/sprites/assay_clerk.png');
+    this.load.image('char_powell', '/assets/sprites/truman_powell.png');
+    this.load.image('char_lynch', '/assets/sprites/clem_buckley.png');
 
     // Cursors
-    this.load.image('cursor_default', '/images/ui/cursor_default.png');
-    this.load.image('cursor_walk', '/images/ui/cursor_walk.png');
-    this.load.image('cursor_look', '/images/ui/cursor_look.png');
-    this.load.image('cursor_use', '/images/ui/cursor_use.png');
-    this.load.image('cursor_talk', '/images/ui/cursor_talk.png');
-    this.load.image('cursor_exit', '/images/ui/cursor_exit.png');
-    this.load.image('cursor_pickup', '/images/ui/cursor_pickup.png');
+    this.load.image('cursor_default', '/images/ui/cursor_default.svg');
   }
 
   create(): void {
@@ -122,16 +133,36 @@ export class GameScene extends Phaser.Scene {
 
   private createPlayer(): void {
     const state = getGameState();
+    
+    // Determine which texture to use - prefer player_clem since spritesheet may not exist
+    let playerTexture = 'player_clem';
+    if (this.textures.exists('player') && this.textures.get('player').key !== '__MISSING') {
+      playerTexture = 'player';
+    } else if (!this.textures.exists('player_clem')) {
+      // Fallback: create a simple colored rectangle as player placeholder
+      const graphics = this.make.graphics({ x: 0, y: 0 });
+      graphics.fillStyle(0x8B4513, 1);
+      graphics.fillRect(0, 0, 32, 64);
+      graphics.generateTexture('player_placeholder', 32, 64);
+      graphics.destroy();
+      playerTexture = 'player_placeholder';
+    }
+    
     this.player = this.add.sprite(
       state.playerPosition.x,
       state.playerPosition.y,
-      'player'
+      playerTexture
     );
     this.player.setOrigin(0.5, 1);
     this.player.setDepth(100);
+    
+    // Scale down if using the large character sprite
+    if (playerTexture === 'player_clem') {
+      this.player.setScale(0.15);
+    }
 
     // Create animations if spritesheet is loaded
-    if (this.textures.exists('player')) {
+    if (this.textures.exists('player') && playerTexture === 'player') {
       this.createPlayerAnimations();
     }
   }
@@ -263,6 +294,8 @@ export class GameScene extends Phaser.Scene {
     // Clear existing hotspot zones
     this.hotspotZones.forEach((zone) => zone.destroy());
     this.hotspotZones.clear();
+    this.roomCharacterSprites.forEach((sprite) => sprite.destroy());
+    this.roomCharacterSprites = [];
 
     // Load background
     if (this.background) {
@@ -283,6 +316,7 @@ export class GameScene extends Phaser.Scene {
 
     // Create hotspot zones
     this.createHotspotZones(room);
+    this.createRoomCharacters(room);
 
     // Position player
     const state = getGameState();
@@ -610,7 +644,7 @@ export class GameScene extends Phaser.Scene {
     if (!this.currentRoom) return;
 
     const hotspot = this.currentRoom.hotspots.find((h) => h.id === hotspotId);
-    if (!hotspot || !hotspot.useScript) {
+    if (!hotspot) {
       // Default response
       runScriptWithContext([
         { type: 'thought', text: "I can't use that." },
@@ -626,9 +660,43 @@ export class GameScene extends Phaser.Scene {
     this.player.setFlipX(direction === 'left');
     setPlayerFacing(direction);
 
-    runScriptWithContext(hotspot.useScript).then(() => {
+    // Route click intent based on hotspot cursor first, then script availability.
+    const script =
+      (hotspot.cursor === 'talk' ? hotspot.talkScript : undefined) ||
+      (hotspot.cursor === 'look' ? hotspot.lookScript : undefined) ||
+      hotspot.useScript ||
+      hotspot.talkScript ||
+      hotspot.lookScript;
+
+    if (!script) {
+      runScriptWithContext([
+        { type: 'thought', text: "I can't use that." },
+      ]).then(() => this.processNextAction());
+      return;
+    }
+
+    runScriptWithContext(script).then(() => {
       this.processNextAction();
     });
+  }
+
+  private createRoomCharacters(room: RoomDefinition): void {
+    for (const character of room.characters) {
+      if (character.condition && !evaluateCondition(character.condition)) continue;
+
+      const textureKey = `char_${character.characterId}`;
+      if (!this.textures.exists(textureKey)) continue;
+
+      const sprite = this.add.image(
+        character.position.x,
+        character.position.y,
+        textureKey
+      );
+      sprite.setOrigin(0.5, 1);
+      sprite.setDepth(character.position.y);
+      sprite.setFlipX(character.facing === 'left');
+      this.roomCharacterSprites.push(sprite);
+    }
   }
 
   private handleUseItem(hotspotId: string, itemId: string): void {

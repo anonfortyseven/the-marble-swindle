@@ -4,21 +4,21 @@
       "id": "lantern",
       "name": "Oil Lantern",
       "description": "A brass oil lantern, well-worn but functional.",
-      "icon": "/images/items/item_lantern.png",
+      "icon": "/assets/items/lantern.png",
       "examineText": "A reliable brass lantern. Essential for exploring dark caves. The brass is worn smooth from years of use."
     },
     {
       "id": "journal",
       "name": "Uncle Cornelius's Journal",
       "description": "A leather-bound journal filled with cryptic notes.",
-      "icon": "/images/items/item_journal.png",
+      "icon": "/assets/items/journal.png",
       "examineText": "The handwriting is barely legible. There are sketches of cave formations, strange symbols, and references to 'the Spanish treasure.'"
     },
     {
       "id": "new_rope",
       "name": "New Hemp Rope",
       "description": "A coil of sturdy new rope.",
-      "icon": "/images/items/item_rope.png",
+      "icon": "/assets/items/rope.png",
       "examineText": "Strong and reliable. About fifty feet of good hemp rope. Should hold a person's weight easily."
     },
     {

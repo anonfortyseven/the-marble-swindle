@@ -1,18 +1,5 @@
 import type { Metadata } from 'next';
-import { Crimson_Pro, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
-
-const crimsonPro = Crimson_Pro({
-  subsets: ['latin'],
-  variable: '--font-serif',
-  display: 'swap',
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
 
 export const metadata: Metadata = {
   title: 'The Marble Swindle',
@@ -33,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${crimsonPro.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en">
       <body className="antialiased bg-slate-950 text-white font-sans">
         {children}
       </body>

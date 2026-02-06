@@ -4,13 +4,16 @@
 // The Marble Swindle - UI Component
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { addScriptEventListener, signalDialogueDismissed } from '@/engine/ScriptRunner';
+import {
+  addScriptEventListener,
+  signalDialogueDismissed,
+  signalDialogueComplete,
+} from '@/engine/ScriptRunner';
 import {
   addDialogueEventListener,
   selectChoice,
   advanceDialogue,
-  getIsDialogueActive,
-  getCurrentDialogueNode,
+  startDialogue,
 } from '@/engine/DialogueManager';
 import { DialogueChoiceDefinition, DialogueNodeDefinition } from '@/types/dialogue';
 
@@ -78,6 +81,12 @@ export default function DialogueBox({
           isDialogueTree: false,
         });
         startTypewriter(text);
+      } else if (type === 'dialogue') {
+        const { characterId, nodeId } = data as {
+          characterId: string;
+          nodeId?: string;
+        };
+        startDialogue(characterId, nodeId);
       }
     });
 
@@ -119,6 +128,7 @@ export default function DialogueBox({
             isDialogueTree: false,
           });
           setDisplayedText('');
+          signalDialogueComplete();
           break;
       }
     });

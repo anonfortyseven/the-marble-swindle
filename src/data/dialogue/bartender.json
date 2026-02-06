@@ -41,6 +41,12 @@
               "targetNode": "about_poker"
             },
             {
+              "id": "ask_rope",
+              "text": "I need sturdy rope for the sinkhole pulley.",
+              "targetNode": "rope_request",
+              "condition": "!hasItem('new_rope') && !getFlag('pulley_fixed')"
+            },
+            {
               "id": "leave",
               "text": "Just looking around.",
               "targetNode": "farewell"
@@ -133,6 +139,21 @@
           "onEnter": [
             { "type": "setFlag", "flag": "warned_about_cheating", "value": true }
           ],
+          "next": "start"
+        },
+        "rope_request": {
+          "id": "rope_request",
+          "speaker": "Jasper",
+          "text": "Pulley rope, huh? I've got a coil of good hemp behind the bar. Take it. Just don't get yourself killed down there.",
+          "onEnter": [
+            { "type": "giveItem", "itemId": "new_rope" }
+          ],
+          "next": "rope_followup"
+        },
+        "rope_followup": {
+          "id": "rope_followup",
+          "speaker": "Jasper",
+          "text": "If that cave gives up any secrets, you come tell me first.",
           "next": "start"
         },
         "farewell": {
