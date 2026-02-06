@@ -1,0 +1,149 @@
+{
+  "items": [
+    {
+      "id": "lantern",
+      "name": "Oil Lantern",
+      "description": "A brass oil lantern, well-worn but functional.",
+      "icon": "/images/items/item_lantern.png",
+      "examineText": "A reliable brass lantern. Essential for exploring dark caves. The brass is worn smooth from years of use."
+    },
+    {
+      "id": "journal",
+      "name": "Uncle Cornelius's Journal",
+      "description": "A leather-bound journal filled with cryptic notes.",
+      "icon": "/images/items/item_journal.png",
+      "examineText": "The handwriting is barely legible. There are sketches of cave formations, strange symbols, and references to 'the Spanish treasure.'"
+    },
+    {
+      "id": "new_rope",
+      "name": "New Hemp Rope",
+      "description": "A coil of sturdy new rope.",
+      "icon": "/images/items/item_rope.png",
+      "examineText": "Strong and reliable. About fifty feet of good hemp rope. Should hold a person's weight easily."
+    },
+    {
+      "id": "candle",
+      "name": "Candle",
+      "description": "A simple tallow candle.",
+      "icon": "/images/items/item_candle.png",
+      "examineText": "A basic tallow candle. It'll last maybe an hour. Better than nothing in the dark.",
+      "canCombineWith": ["matches"],
+      "combineResult": {
+        "matches": "lit_candle"
+      }
+    },
+    {
+      "id": "lit_candle",
+      "name": "Lit Candle",
+      "description": "A burning candle, casting a small circle of light.",
+      "icon": "/images/items/item_candle_lit.png",
+      "examineText": "The flame dances in the darkness. Won't last forever."
+    },
+    {
+      "id": "matches",
+      "name": "Box of Matches",
+      "description": "A small box of sulfur matches.",
+      "icon": "/images/items/item_matches.png",
+      "examineText": "About a dozen matches left. Keep them dry.",
+      "canCombineWith": ["candle", "lantern"]
+    },
+    {
+      "id": "rock_hammer",
+      "name": "Rock Hammer",
+      "description": "A small geologist's hammer.",
+      "icon": "/images/items/item_rock_hammer.png",
+      "examineText": "A proper rock hammer for collecting specimens. The head is made of good steel."
+    },
+    {
+      "id": "magnifying_glass",
+      "name": "Magnifying Glass",
+      "description": "A brass-rimmed magnifying glass.",
+      "icon": "/images/items/item_magnifying_glass.png",
+      "examineText": "Useful for examining small details. The lens is high quality - probably came from an expensive set."
+    },
+    {
+      "id": "silver_dollar",
+      "name": "Silver Dollar",
+      "description": "A Morgan silver dollar, 1889 mint.",
+      "icon": "/images/items/item_silver_dollar.png",
+      "examineText": "Fresh from the mint this year. Lady Liberty stares out from the face. Worth exactly what it says."
+    },
+    {
+      "id": "blank_permit",
+      "name": "Blank Mining Permit",
+      "description": "An official-looking blank permit form.",
+      "icon": "/images/items/item_permit_blank.png",
+      "examineText": "The Stone County seal is pre-printed. It just needs to be filled out and stamped."
+    },
+    {
+      "id": "wax_seal",
+      "name": "County Wax Seal Stamp",
+      "description": "An official wax seal stamp.",
+      "icon": "/images/items/item_wax_seal.png",
+      "examineText": "The Stone County seal. How this ended up here is another question entirely."
+    },
+    {
+      "id": "forged_permit",
+      "name": "Mining Permit (Forged)",
+      "description": "A completed mining permit. Looks official enough.",
+      "icon": "/images/items/item_permit_forged.png",
+      "examineText": "The forgery is passable. Let's hope no one looks too closely."
+    },
+    {
+      "id": "bat_guano",
+      "name": "Jar of Bat Guano",
+      "description": "A jar filled with... well, bat droppings.",
+      "icon": "/images/items/item_guano.png",
+      "examineText": "Disgusting, but valuable. This stuff was worth $700 a ton to the mining company. Full of nitrates."
+    },
+    {
+      "id": "orange_calcite",
+      "name": "Orange Calcite Sample",
+      "description": "A beautiful chunk of orange calcite crystal.",
+      "icon": "/images/items/item_calcite.png",
+      "examineText": "The color is remarkable - like frozen fire. This came from the Spring Room, where the walls glow orange."
+    },
+    {
+      "id": "journal_page_1",
+      "name": "Torn Journal Page",
+      "description": "A page torn from Uncle Cornelius's journal.",
+      "icon": "/images/items/item_journal_page.png",
+      "examineText": "'The Spanish left more than a ladder. Follow the water to find what they buried. The Liberty Bell knows the way.'"
+    },
+    {
+      "id": "journal_page_2",
+      "name": "Burned Journal Page",
+      "description": "A partially burned page from the journal.",
+      "icon": "/images/items/item_journal_page_burned.png",
+      "examineText": "Most of the text is destroyed. Only a few words survive: '...the real swindle... marble... worth more than gold...'"
+    },
+    {
+      "id": "journal_page_3",
+      "name": "Water-Damaged Journal Page",
+      "description": "A water-stained page from the journal.",
+      "icon": "/images/items/item_journal_page_wet.png",
+      "examineText": "The ink has run but some is readable: 'Lynch doesn't know what he bought. Neither did Powell. But I do.'"
+    },
+    {
+      "id": "mining_helmet",
+      "name": "Mining Helmet",
+      "description": "A leather mining helmet with a candle holder.",
+      "icon": "/images/items/item_mining_helmet.png",
+      "examineText": "A proper miner's cap. The leather is stiff but functional. The candle holder is built right in."
+    },
+    {
+      "id": "ore_cart_wheel",
+      "name": "Ore Cart Wheel",
+      "description": "A heavy iron wheel from a mining cart.",
+      "icon": "/images/items/item_wheel.png",
+      "examineText": "Cast iron, meant for the narrow gauge tracks in the mine. Heavy but well-balanced."
+    },
+    {
+      "id": "counterweight_rocks",
+      "name": "Bag of Counterweight Rocks",
+      "description": "A burlap sack filled with heavy rocks.",
+      "icon": "/images/items/item_rocks.png",
+      "examineText": "Limestone chunks. Heavy enough to balance something on a pulley system."
+    }
+  ]
+}

@@ -1,26 +1,33 @@
 {
-  "name": "game",
+  "name": "the-marble-swindle",
   "version": "0.1.0",
   "private": true,
+  "description": "A LucasArts-style point-and-click adventure game set in 1889 Marvel Cave, Missouri",
+  "author": "The Marble Swindle Team",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "next": "16.1.6",
+    "phaser": "^3.90.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^20.19.32",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

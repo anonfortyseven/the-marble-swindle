@@ -1,0 +1,171 @@
+{
+  "id": "sinkhole",
+  "name": "The Sinkhole",
+  "background": "bg_sinkhole",
+  "music": "music_surface_day",
+  "ambience": "ambient_wind",
+  "walkableArea": {
+    "points": [
+      { "x": 100, "y": 400 },
+      { "x": 860, "y": 400 },
+      { "x": 900, "y": 550 },
+      { "x": 60, "y": 550 }
+    ]
+  },
+  "exits": [
+    {
+      "id": "to_general_store",
+      "targetRoom": "general_store",
+      "targetPosition": { "x": 850, "y": 450 },
+      "polygon": {
+        "points": [
+          { "x": 0, "y": 380 },
+          { "x": 60, "y": 380 },
+          { "x": 60, "y": 520 },
+          { "x": 0, "y": 520 }
+        ]
+      },
+      "cursor": "exit"
+    },
+    {
+      "id": "to_cave_entrance",
+      "targetRoom": "cathedral_room",
+      "targetPosition": { "x": 480, "y": 500 },
+      "condition": "getFlag('pulley_fixed')",
+      "polygon": {
+        "points": [
+          { "x": 380, "y": 250 },
+          { "x": 560, "y": 250 },
+          { "x": 560, "y": 380 },
+          { "x": 380, "y": 380 }
+        ]
+      },
+      "cursor": "exit"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "sinkhole_entrance",
+      "name": "The Sinkhole",
+      "polygon": {
+        "points": [
+          { "x": 350, "y": 200 },
+          { "x": 600, "y": 200 },
+          { "x": 650, "y": 380 },
+          { "x": 300, "y": 380 }
+        ]
+      },
+      "interactionPoint": { "x": 480, "y": 420 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A gaping hole in the earth, the entrance to Marvel Cave. The Devil's Den, the Osage called it." },
+        { "type": "thought", "text": "There's something eerie about it. Like it's waiting for someone to fall in." }
+      ],
+      "useScript": [
+        {
+          "type": "if",
+          "condition": "getFlag('pulley_fixed')",
+          "then": [
+            { "type": "narrate", "text": "The repaired pulley system creaks as you prepare to descend into the darkness..." }
+          ],
+          "else": [
+            { "type": "thought", "text": "I'm not climbing down there without proper equipment." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rope_pulley",
+      "name": "Old Rope and Pulley",
+      "polygon": {
+        "points": [
+          { "x": 420, "y": 150 },
+          { "x": 520, "y": 150 },
+          { "x": 520, "y": 220 },
+          { "x": 420, "y": 220 }
+        ]
+      },
+      "interactionPoint": { "x": 470, "y": 380 },
+      "cursor": "use",
+      "lookScript": [
+        { "type": "narrate", "text": "A weathered pulley system with frayed rope. The mining company used this to lower their ore carts." },
+        { "type": "thought", "text": "The rope's been here since the guano miners left. Nearly ten years of weathering." }
+      ],
+      "useScript": [
+        { "type": "thought", "text": "The mechanism seems sound, but this rope would snap if I tried to use it." }
+      ],
+      "useWithItem": {
+        "new_rope": [
+          { "type": "narrate", "text": "You carefully replace the old frayed rope with the new one." },
+          { "type": "takeItem", "itemId": "new_rope" },
+          { "type": "setFlag", "flag": "pulley_fixed", "value": true },
+          { "type": "say", "character": "Clem", "text": "That should hold. Now I can get down there safely." },
+          { "type": "puzzleSolved", "puzzleId": "fix_pulley" }
+        ]
+      }
+    },
+    {
+      "id": "v_marked_tree",
+      "name": "V-Marked Tree",
+      "polygon": {
+        "points": [
+          { "x": 700, "y": 100 },
+          { "x": 800, "y": 100 },
+          { "x": 800, "y": 350 },
+          { "x": 700, "y": 350 }
+        ]
+      },
+      "interactionPoint": { "x": 750, "y": 420 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "An old oak tree with a deep V carved into its bark. The Osage left these as warnings." },
+        { "type": "thought", "text": "A warning to stay away from the sinkhole. Can't say I blame them." }
+      ],
+      "useScript": [
+        { "type": "thought", "text": "Just an old tree. The carving's at least a hundred years old." }
+      ]
+    },
+    {
+      "id": "burned_building",
+      "name": "Burned Ruins",
+      "polygon": {
+        "points": [
+          { "x": 800, "y": 300 },
+          { "x": 920, "y": 300 },
+          { "x": 920, "y": 400 },
+          { "x": 800, "y": 400 }
+        ]
+      },
+      "interactionPoint": { "x": 820, "y": 420 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "The charred remains of what was once a building. Part of the old town of Marmaros." },
+        { "type": "thought", "text": "The Bald Knobbers did this. Burned the whole town when the mining company left." },
+        {
+          "type": "if",
+          "condition": "!getFlag('seen_burned_building')",
+          "then": [
+            { "type": "setFlag", "flag": "seen_burned_building", "value": true },
+            { "type": "thought", "text": "Uncle Cornelius mentioned this in his journal. Said there was something hidden here..." }
+          ]
+        }
+      ]
+    }
+  ],
+  "characters": [],
+  "onEnter": [
+    {
+      "type": "if",
+      "condition": "!hasVisitedRoom('sinkhole')",
+      "then": [
+        { "type": "fadeIn", "duration": 1000 },
+        { "type": "wait", "seconds": 0.5 },
+        { "type": "narrate", "text": "October 30, 1889. Marmaros, Missouri." },
+        { "type": "wait", "seconds": 0.3 },
+        { "type": "narrate", "text": "You've traveled a long way to see this hole in the ground. They're calling it Marvel Cave now." },
+        { "type": "thought", "text": "The mining company went bust. The town's half-burned. But there's something here worth finding." },
+        { "type": "thought", "text": "Uncle Cornelius's last letter said to start here. At the Devil's Den." }
+      ]
+    }
+  ]
+}

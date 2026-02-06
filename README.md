@@ -1,36 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# The Marble Swindle
 
-## Getting Started
+A LucasArts-style point-and-click adventure game set in 1889 Marvel Cave, Missouri.
 
-First, run the development server:
+## About
+
+The year is 1889. You are Clem Buckley, a determined young woman who has traveled to the remote Ozark town of Marmaros following your uncle Cornelius's mysterious disappearance. He was last seen investigating the region's most peculiar attraction: a massive sinkhole the Osage called "The Devil's Den" — now known as Marvel Cave.
+
+The mining company went bust. The town is half-burned. But Cornelius's cryptic journal hints at something valuable hidden in the depths — something the Spanish conquistadors left behind over 300 years ago.
+
+## Features
+
+- **Classic Point-and-Click Gameplay**: Context-sensitive interactions, item combinations, and environmental puzzles
+- **Rich Historical Setting**: Based on the real history of Marvel Cave and Silver Dollar City
+- **LucasArts-Inspired Design**: No deaths, no dead ends, just clever puzzles and witty dialogue
+- **Original Pixel Art**: 1990s adventure game aesthetic with warm Ozark autumn tones
+- **Data-Driven Engine**: JSON-based room definitions, dialogue trees, and puzzle chains
+
+## Tech Stack
+
+- **Framework**: Next.js 16 with TypeScript
+- **Game Engine**: Phaser 3
+- **Styling**: Tailwind CSS
+- **Hosting**: Vercel
+- **Asset Storage**: Supabase (for large audio files)
+
+## Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
+
+# Type check
+npm run type-check
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+├── app/              # Next.js app router
+├── components/       # React UI components
+├── engine/           # Phaser game engine modules
+├── types/            # TypeScript type definitions
+└── data/             # JSON game content
+    ├── rooms/        # Room/scene definitions
+    ├── items/        # Inventory item definitions
+    └── dialogue/     # Dialogue tree definitions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+public/
+├── images/           # Visual assets
+│   ├── backgrounds/  # Room backgrounds
+│   ├── sprites/      # Character sprites
+│   ├── items/        # Inventory icons
+│   └── ui/           # UI elements
+└── audio/            # Audio assets
+    ├── music/        # Background music
+    ├── sfx/          # Sound effects
+    └── voice/        # Voice lines
+```
 
-## Learn More
+## Controls
 
-To learn more about Next.js, take a look at the following resources:
+- **Left Click**: Walk to location / Use hotspot / Select dialogue option
+- **Right Click**: Examine / Inspect item
+- **Shift+D**: Toggle debug mode (shows walkable areas and hotspots)
+- **ESC**: Pause menu
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Credits
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Based on the real history of Marvel Cave, located beneath Silver Dollar City theme park near Branson, Missouri. The cave has been continuously operated as a show cave since 1894.
 
-## Deploy on Vercel
+Special thanks to:
+- The Herschend family for preserving Marvel Cave
+- The LucasArts adventure game design philosophy
+- Silver Dollar City fans everywhere
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This is a fan project celebrating the history of Marvel Cave and the classic adventure game genre.
