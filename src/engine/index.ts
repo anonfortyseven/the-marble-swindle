@@ -91,6 +91,33 @@ export {
   createSampleDialogueTrees,
 } from './DialogueManager';
 
+// Dialogue loading
+export {
+  loadDialogueFile,
+  loadDialogueFromJSON,
+  loadDialogueFromURL,
+  loadAllDialogues,
+  findDialogueForCharacter,
+  getDialogueById,
+  getDialoguesForCharacter,
+  getCharacterInfo,
+  getLoadedCharacters,
+  clearDialogues,
+  validateDialogueFile,
+} from './DialogueLoader';
+
+// Audio management
+export {
+  playSound,
+  playMusic,
+  stopMusic,
+  setMusicVolume,
+  setSFXVolume,
+  setVoiceVolume,
+  pauseAll,
+  resumeAll,
+} from './AudioManager';
+
 // Re-export types
 export type {
   Point,

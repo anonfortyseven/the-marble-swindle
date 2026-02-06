@@ -3,6 +3,9 @@
 
 import { GameState, SaveData, RoomState, Point } from '@/types/game';
 
+// Re-export types for convenience
+export type { GameState, SaveData, RoomState, Point };
+
 const SAVE_VERSION = '1.0.0';
 const STORAGE_KEY = 'marble-swindle-saves';
 

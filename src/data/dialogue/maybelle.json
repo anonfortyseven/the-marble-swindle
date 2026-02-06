@@ -1,0 +1,314 @@
+{
+  "version": "1.0.0",
+  "characterId": "maybelle",
+  "characterName": "Maybelle Sutter",
+  "defaultPortrait": "/images/portraits/maybelle_neutral.png",
+  "dialogues": [
+    {
+      "id": "maybelle_intro",
+      "characterId": "maybelle",
+      "startNode": "start",
+      "metadata": {
+        "title": "First Meeting with Maybelle",
+        "description": "Initial conversation when first entering the general store",
+        "priority": 100,
+        "condition": "!getFlag('met_maybelle')"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Maybelle",
+          "text": "Well now, you're a new face. Don't get many travelers since the mine closed.",
+          "emotion": "surprised",
+          "next": "greeting_response"
+        },
+        "greeting_response": {
+          "id": "greeting_response",
+          "speaker": "Clem",
+          "text": "Name's Clem Buckley. I'm looking for information about my uncle.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "met_maybelle", "value": true }
+          ],
+          "choices": [
+            {
+              "id": "ask_uncle",
+              "text": "Have you seen a man named Cornelius Buckley?",
+              "targetNode": "about_cornelius"
+            },
+            {
+              "id": "ask_cave",
+              "text": "Tell me about the cave.",
+              "targetNode": "about_cave"
+            },
+            {
+              "id": "ask_town",
+              "text": "What happened to this town?",
+              "targetNode": "about_town"
+            },
+            {
+              "id": "end_convo",
+              "text": "I'll look around first.",
+              "targetNode": "end"
+            }
+          ]
+        },
+        "about_cornelius": {
+          "id": "about_cornelius",
+          "speaker": "Maybelle",
+          "text": "Cornelius? Oh, the theatrical fellow with all the questions about Spanish treasure. He was here about a month ago. Asked a lot of questions, then headed to the cave.",
+          "emotion": "thoughtful",
+          "onEnter": [
+            { "type": "setFlag", "flag": "learned_about_cornelius", "value": true }
+          ],
+          "choices": [
+            {
+              "id": "cornelius_more",
+              "text": "What kind of questions did he ask?",
+              "targetNode": "cornelius_questions"
+            },
+            {
+              "id": "back_to_topics",
+              "text": "I have other questions.",
+              "targetNode": "greeting_response"
+            }
+          ]
+        },
+        "cornelius_questions": {
+          "id": "cornelius_questions",
+          "speaker": "Maybelle",
+          "text": "He wanted to know about the Spanish exploration. About what the mining company found. And he was very interested in William Lynch — the man who just bought the cave.",
+          "next": "cornelius_warning"
+        },
+        "cornelius_warning": {
+          "id": "cornelius_warning",
+          "speaker": "Maybelle",
+          "text": "Listen, I don't know what your uncle was after, but folks around here don't take kindly to treasure hunters. Especially after what the Bald Knobbers did.",
+          "emotion": "sad",
+          "onEnter": [
+            { "type": "setFlag", "flag": "warned_about_bald_knobbers", "value": true }
+          ],
+          "choices": [
+            {
+              "id": "ask_bald_knobbers",
+              "text": "Who are the Bald Knobbers?",
+              "targetNode": "about_bald_knobbers",
+              "once": true
+            },
+            {
+              "id": "back_to_topics_2",
+              "text": "I have other questions.",
+              "targetNode": "greeting_response"
+            }
+          ]
+        },
+        "about_bald_knobbers": {
+          "id": "about_bald_knobbers",
+          "speaker": "Maybelle",
+          "text": "Vigilantes. Started out keeping order after the war, but they turned mean. Wore masks made from flour sacks with horns. They're the ones who burned Marmaros to the ground.",
+          "emotion": "angry",
+          "onEnter": [
+            { "type": "setFlag", "flag": "learned_about_bald_knobbers", "value": true }
+          ],
+          "next": "greeting_response"
+        },
+        "about_cave": {
+          "id": "about_cave",
+          "speaker": "Maybelle",
+          "text": "They call it Marvel Cave now. Used to be Marble Cave, but there ain't no marble. Just bat droppings and limestone. The mining company went bust trying to dig the stuff out.",
+          "choices": [
+            {
+              "id": "ask_mining",
+              "text": "Tell me about the mining company.",
+              "targetNode": "about_mining"
+            },
+            {
+              "id": "ask_lynch",
+              "text": "Who owns the cave now?",
+              "targetNode": "about_lynch"
+            },
+            {
+              "id": "back_to_topics_3",
+              "text": "I have other questions.",
+              "targetNode": "greeting_response"
+            }
+          ]
+        },
+        "about_mining": {
+          "id": "about_mining",
+          "speaker": "Maybelle",
+          "text": "The Marble Cave Mining Company. Showed up in '84, dug out all the bat guano they could find, then left when the money ran out. That's when the Bald Knobbers came.",
+          "next": "greeting_response"
+        },
+        "about_lynch": {
+          "id": "about_lynch",
+          "speaker": "Maybelle",
+          "text": "William Lynch. A Canadian, if you can believe it. Bought the whole property just yesterday. Seems to think he can turn the cave into some kind of tourist attraction.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "learned_about_lynch", "value": true }
+          ],
+          "choices": [
+            {
+              "id": "meet_lynch",
+              "text": "Where can I find Mr. Lynch?",
+              "targetNode": "lynch_location"
+            },
+            {
+              "id": "back_to_topics_4",
+              "text": "I have other questions.",
+              "targetNode": "greeting_response"
+            }
+          ]
+        },
+        "lynch_location": {
+          "id": "lynch_location",
+          "speaker": "Maybelle",
+          "text": "He's set up camp at the old Lynch homestead, just past the sinkhole. Can't miss it — only building that didn't get burned.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "know_lynch_location", "value": true }
+          ],
+          "next": "greeting_response"
+        },
+        "about_town": {
+          "id": "about_town",
+          "speaker": "Maybelle",
+          "text": "Marmaros. Used to have near thirty souls living here. Now it's just me, old Ezra at the carpentry, and a few others who were too stubborn to leave.",
+          "next": "town_burned"
+        },
+        "town_burned": {
+          "id": "town_burned",
+          "speaker": "Maybelle",
+          "text": "The Bald Knobbers burned most of it when the mine closed. Said we were harboring criminals. Really they just wanted to run us out.",
+          "emotion": "sad",
+          "next": "greeting_response"
+        },
+        "end": {
+          "id": "end",
+          "speaker": "Maybelle",
+          "text": "Take your time. I'll be here.",
+          "endConversation": true
+        }
+      }
+    },
+    {
+      "id": "maybelle_return",
+      "characterId": "maybelle",
+      "startNode": "start",
+      "metadata": {
+        "title": "Return Visit to Maybelle",
+        "description": "Subsequent conversations after first meeting",
+        "priority": 50,
+        "condition": "getFlag('met_maybelle')"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Maybelle",
+          "text": "Back again? What can I do for you?",
+          "choices": [
+            {
+              "id": "ask_supplies",
+              "text": "I need some supplies.",
+              "targetNode": "supplies"
+            },
+            {
+              "id": "ask_cornelius_return",
+              "text": "Any news about my uncle?",
+              "targetNode": "no_news",
+              "condition": "getFlag('learned_about_cornelius')"
+            },
+            {
+              "id": "buy_rope",
+              "text": "I need some good rope.",
+              "targetNode": "sell_rope",
+              "condition": "getFlag('need_rope_for_pulley') && !hasItem('new_rope')"
+            },
+            {
+              "id": "end_return",
+              "text": "Just looking around.",
+              "targetNode": "end"
+            }
+          ]
+        },
+        "supplies": {
+          "id": "supplies",
+          "speaker": "Maybelle",
+          "text": "I've got a bit of everything. Candles, matches, some tools. What do you need?",
+          "choices": [
+            {
+              "id": "buy_candles",
+              "text": "I'll take some candles and matches.",
+              "targetNode": "sell_candles",
+              "condition": "!hasItem('candle') && !hasItem('matches')"
+            },
+            {
+              "id": "buy_rope_from_supplies",
+              "text": "Do you have any rope?",
+              "targetNode": "sell_rope"
+            },
+            {
+              "id": "back_from_supplies",
+              "text": "Never mind.",
+              "targetNode": "start"
+            }
+          ]
+        },
+        "sell_candles": {
+          "id": "sell_candles",
+          "speaker": "Maybelle",
+          "text": "That'll be two bits. Here you go.",
+          "onEnter": [
+            { "type": "giveItem", "itemId": "candle" },
+            { "type": "giveItem", "itemId": "matches" }
+          ],
+          "next": "start"
+        },
+        "sell_rope": {
+          "id": "sell_rope",
+          "speaker": "Maybelle",
+          "text": "Good hemp rope? I've got about fifty feet left. That'll run you a dollar.",
+          "choices": [
+            {
+              "id": "pay_for_rope",
+              "text": "Here's your dollar.",
+              "targetNode": "get_rope",
+              "condition": "hasItem('silver_dollar')"
+            },
+            {
+              "id": "no_money",
+              "text": "I don't have enough money right now.",
+              "targetNode": "no_money_response"
+            }
+          ]
+        },
+        "get_rope": {
+          "id": "get_rope",
+          "speaker": "Maybelle",
+          "text": "Much obliged. This is quality rope — should hold your weight easily.",
+          "onEnter": [
+            { "type": "takeItem", "itemId": "silver_dollar" },
+            { "type": "giveItem", "itemId": "new_rope" }
+          ],
+          "next": "start"
+        },
+        "no_money_response": {
+          "id": "no_money_response",
+          "speaker": "Maybelle",
+          "text": "Come back when you've got the coin. I can't run a store on promises.",
+          "next": "start"
+        },
+        "no_news": {
+          "id": "no_news",
+          "speaker": "Maybelle",
+          "text": "Haven't heard a thing, I'm afraid. But then, folks tend to disappear around that cave. The woods are thick, and the ground is treacherous.",
+          "next": "start"
+        },
+        "end": {
+          "id": "end",
+          "speaker": "Maybelle",
+          "text": "Take care now.",
+          "endConversation": true
+        }
+      }
+    }
+  ]
+}

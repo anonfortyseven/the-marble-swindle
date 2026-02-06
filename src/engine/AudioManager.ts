@@ -346,3 +346,39 @@ export const audioManager = new AudioManager();
 
 // Export for convenience
 export default audioManager;
+
+// ============================================
+// CONVENIENCE EXPORTS
+// ============================================
+
+export function playSound(sfxName: string, volume?: number): void {
+  audioManager.playSFX(sfxName, volume);
+}
+
+export function playMusic(trackName: string, fadeInMs?: number): Promise<void> {
+  return audioManager.playMusic(trackName, fadeInMs);
+}
+
+export function stopMusic(fadeOutMs?: number): Promise<void> {
+  return audioManager.stopMusic(fadeOutMs);
+}
+
+export function setMusicVolume(volume: number): void {
+  audioManager.setConfig({ musicVolume: volume });
+}
+
+export function setSFXVolume(volume: number): void {
+  audioManager.setConfig({ sfxVolume: volume });
+}
+
+export function setVoiceVolume(volume: number): void {
+  audioManager.setConfig({ voiceVolume: volume });
+}
+
+export function pauseAll(): void {
+  audioManager.setMuted(true);
+}
+
+export function resumeAll(): void {
+  audioManager.setMuted(false);
+}

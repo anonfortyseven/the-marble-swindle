@@ -1,0 +1,297 @@
+{
+  "version": "1.0.0",
+  "characterId": "lynch",
+  "characterName": "William Lynch",
+  "defaultPortrait": "/images/portraits/lynch_neutral.png",
+  "dialogues": [
+    {
+      "id": "lynch_intro",
+      "characterId": "lynch",
+      "startNode": "start",
+      "metadata": {
+        "title": "First Meeting with William Lynch",
+        "description": "Initial conversation with the cave's new owner",
+        "priority": 100,
+        "condition": "!getFlag('met_lynch')"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Lynch",
+          "text": "Welcome, welcome! You must be here about the cave! I'm William Lynch, the new proprietor of Marvel Cave — soon to be the greatest natural wonder attraction in all of Missouri!",
+          "emotion": "happy",
+          "onEnter": [
+            { "type": "setFlag", "flag": "met_lynch", "value": true }
+          ],
+          "next": "intro_response"
+        },
+        "intro_response": {
+          "id": "intro_response",
+          "speaker": "Clem",
+          "text": "Actually, I'm looking for my uncle. Cornelius Buckley.",
+          "next": "lynch_knows_cornelius"
+        },
+        "lynch_knows_cornelius": {
+          "id": "lynch_knows_cornelius",
+          "speaker": "Lynch",
+          "text": "Cornelius! A fascinating fellow. Helped me survey the cave before I bought it. Said he was researching for a book about Ozark history.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "lynch_mentioned_cornelius", "value": true }
+          ],
+          "choices": [
+            {
+              "id": "cornelius_whereabouts",
+              "text": "When did you last see him?",
+              "targetNode": "last_saw_cornelius"
+            },
+            {
+              "id": "cornelius_research",
+              "text": "What kind of research?",
+              "targetNode": "cornelius_research"
+            },
+            {
+              "id": "cave_tour",
+              "text": "Can I see the cave?",
+              "targetNode": "cave_access"
+            }
+          ]
+        },
+        "last_saw_cornelius": {
+          "id": "last_saw_cornelius",
+          "speaker": "Lynch",
+          "text": "Let me think... about two weeks ago? He went down into the cave for one of his surveys and I haven't seen him since. Assumed he'd moved on to his next research site.",
+          "emotion": "thoughtful",
+          "onEnter": [
+            { "type": "setFlag", "flag": "cornelius_last_seen_two_weeks", "value": true }
+          ],
+          "choices": [
+            {
+              "id": "concerned",
+              "text": "I'm worried something happened to him.",
+              "targetNode": "lynch_reassures"
+            },
+            {
+              "id": "back_to_topics",
+              "text": "I have other questions.",
+              "targetNode": "lynch_knows_cornelius"
+            }
+          ]
+        },
+        "lynch_reassures": {
+          "id": "lynch_reassures",
+          "speaker": "Lynch",
+          "text": "The cave can be dangerous if you don't know what you're doing, but your uncle seemed experienced. I'm sure he's fine. Though... there are some passages I haven't explored yet.",
+          "emotion": "neutral",
+          "next": "lynch_knows_cornelius"
+        },
+        "cornelius_research": {
+          "id": "cornelius_research",
+          "speaker": "Lynch",
+          "text": "Spanish exploration, mostly. The story goes that conquistadors came through here in 1541. Left a ladder in the cave that's still there! Your uncle was particularly interested in something called the 'Spring Room.'",
+          "onEnter": [
+            { "type": "setFlag", "flag": "learned_about_spring_room", "value": true }
+          ],
+          "next": "lynch_knows_cornelius"
+        },
+        "cave_access": {
+          "id": "cave_access",
+          "speaker": "Lynch",
+          "text": "The cave? Of course! Though I should warn you — the descent is treacherous. The pulley system the miners left behind needs repairs before I can let anyone down there safely.",
+          "choices": [
+            {
+              "id": "offer_help",
+              "text": "I could help repair it.",
+              "targetNode": "repair_quest",
+              "condition": "!getFlag('pulley_fixed')"
+            },
+            {
+              "id": "already_fixed",
+              "text": "The pulley's working now.",
+              "targetNode": "pulley_works",
+              "condition": "getFlag('pulley_fixed')"
+            },
+            {
+              "id": "explore_anyway",
+              "text": "I'll find another way down.",
+              "targetNode": "lynch_warns"
+            },
+            {
+              "id": "back_to_topics_2",
+              "text": "I have other questions.",
+              "targetNode": "lynch_knows_cornelius"
+            }
+          ]
+        },
+        "repair_quest": {
+          "id": "repair_quest",
+          "speaker": "Lynch",
+          "text": "Would you? I'd be much obliged! The old rope is frayed beyond use. If you can find some new rope — good strong hemp, not that cheap stuff — I'll show you the cave myself.",
+          "emotion": "happy",
+          "onEnter": [
+            { "type": "setFlag", "flag": "need_rope_for_pulley", "value": true }
+          ],
+          "next": "lynch_knows_cornelius"
+        },
+        "pulley_works": {
+          "id": "pulley_works",
+          "speaker": "Lynch",
+          "text": "You fixed it? Splendid! I knew you were a resourceful one. The cave awaits — but be careful down there. It's easy to get lost in the darkness.",
+          "emotion": "happy",
+          "onEnter": [
+            { "type": "setFlag", "flag": "cave_access_granted", "value": true }
+          ],
+          "endConversation": true
+        },
+        "lynch_warns": {
+          "id": "lynch_warns",
+          "speaker": "Lynch",
+          "text": "I'd advise against that. The sinkhole is over two hundred feet deep. Without the pulley system, you'd need to climb down that old frayed rope. One slip and you'd never be found.",
+          "emotion": "neutral",
+          "next": "lynch_knows_cornelius"
+        }
+      }
+    },
+    {
+      "id": "lynch_return",
+      "characterId": "lynch",
+      "startNode": "start",
+      "metadata": {
+        "title": "Return Visit to Lynch",
+        "description": "Subsequent conversations with Lynch",
+        "priority": 50,
+        "condition": "getFlag('met_lynch')"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Lynch",
+          "text": "Ah, Miss Buckley! How goes your search?",
+          "choices": [
+            {
+              "id": "have_rope",
+              "text": "I found some rope for the pulley.",
+              "targetNode": "rope_delivery",
+              "condition": "hasItem('new_rope') && !getFlag('pulley_fixed')"
+            },
+            {
+              "id": "ask_about_cave",
+              "text": "Tell me more about the cave.",
+              "targetNode": "cave_info"
+            },
+            {
+              "id": "ready_descend",
+              "text": "I'm ready to go down into the cave.",
+              "targetNode": "descend_check",
+              "condition": "getFlag('pulley_fixed')"
+            },
+            {
+              "id": "goodbye",
+              "text": "Just checking in. Goodbye.",
+              "targetNode": "end"
+            }
+          ]
+        },
+        "rope_delivery": {
+          "id": "rope_delivery",
+          "speaker": "Lynch",
+          "text": "Excellent! Let me see... yes, this is perfect. Give me just a moment to rig it up properly.",
+          "next": "rope_installed"
+        },
+        "rope_installed": {
+          "id": "rope_installed",
+          "speaker": "Lynch",
+          "text": "There! The pulley system is ready. You can use it to descend into the cave whenever you're prepared. Just be careful — it's a long way down.",
+          "emotion": "happy",
+          "onEnter": [
+            { "type": "takeItem", "itemId": "new_rope" },
+            { "type": "setFlag", "flag": "pulley_fixed", "value": true },
+            { "type": "setFlag", "flag": "cave_access_granted", "value": true },
+            { "type": "puzzleSolved", "puzzleId": "fix_pulley" }
+          ],
+          "endConversation": true
+        },
+        "cave_info": {
+          "id": "cave_info",
+          "speaker": "Lynch",
+          "text": "Marvel Cave is one of the largest in the Ozarks. The Cathedral Room alone is over two hundred feet high. The Osage knew about it for centuries — they called it the Devil's Den.",
+          "choices": [
+            {
+              "id": "spanish_ladder",
+              "text": "What about the Spanish ladder?",
+              "targetNode": "about_spanish_ladder"
+            },
+            {
+              "id": "spring_room",
+              "text": "Tell me about the Spring Room.",
+              "targetNode": "about_spring_room",
+              "condition": "getFlag('learned_about_spring_room')"
+            },
+            {
+              "id": "back_from_info",
+              "text": "I've heard enough.",
+              "targetNode": "start"
+            }
+          ]
+        },
+        "about_spanish_ladder": {
+          "id": "about_spanish_ladder",
+          "speaker": "Lynch",
+          "text": "A cedar pole ladder, hundreds of years old. The conquistadors left it when they explored the cave in 1541. It's still down there, preserved by the constant cool temperature. Remarkable, really.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "learned_spanish_ladder", "value": true }
+          ],
+          "next": "cave_info"
+        },
+        "about_spring_room": {
+          "id": "about_spring_room",
+          "speaker": "Lynch",
+          "text": "The Spring Room is deep in the cave, past the Cathedral Room. There's an underground lake there, fed by a natural spring. The walls are covered in orange calcite — quite beautiful in lamplight.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "knows_spring_room_location", "value": true }
+          ],
+          "next": "cave_info"
+        },
+        "descend_check": {
+          "id": "descend_check",
+          "speaker": "Lynch",
+          "text": "Do you have everything you need? A lantern at minimum. The darkness in there is absolute.",
+          "choices": [
+            {
+              "id": "ready_with_lantern",
+              "text": "I have my lantern ready.",
+              "targetNode": "descend",
+              "condition": "hasItem('lantern')"
+            },
+            {
+              "id": "not_ready",
+              "text": "I should prepare more first.",
+              "targetNode": "prepare_advice"
+            }
+          ]
+        },
+        "descend": {
+          "id": "descend",
+          "speaker": "Lynch",
+          "text": "Good luck, Miss Buckley. I hope you find what you're looking for down there. And I hope you find your uncle.",
+          "emotion": "neutral",
+          "onEnter": [
+            { "type": "setFlag", "flag": "descended_into_cave", "value": true }
+          ],
+          "endConversation": true
+        },
+        "prepare_advice": {
+          "id": "prepare_advice",
+          "speaker": "Lynch",
+          "text": "Wise decision. At minimum, bring light. The general store might have lanterns or candles. And be warned — it's cold down there, even in summer.",
+          "next": "start"
+        },
+        "end": {
+          "id": "end",
+          "speaker": "Lynch",
+          "text": "Good day to you. And good luck with your search.",
+          "endConversation": true
+        }
+      }
+    }
+  ]
+}
