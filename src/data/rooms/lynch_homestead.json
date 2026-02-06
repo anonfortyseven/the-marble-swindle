@@ -1,0 +1,203 @@
+{
+  "id": "lynch_homestead",
+  "name": "Lynch Homestead",
+  "background": "bg_lynch_homestead",
+  "music": "music_surface_day",
+  "walkableArea": {
+    "points": [
+      { "x": 60, "y": 420 },
+      { "x": 900, "y": 420 },
+      { "x": 900, "y": 580 },
+      { "x": 60, "y": 580 }
+    ]
+  },
+  "exits": [
+    {
+      "id": "to_sinkhole",
+      "targetRoom": "sinkhole",
+      "targetPosition": { "x": 800, "y": 450 },
+      "polygon": {
+        "points": [
+          { "x": 0, "y": 400 },
+          { "x": 80, "y": 400 },
+          { "x": 80, "y": 550 },
+          { "x": 0, "y": 550 }
+        ]
+      },
+      "cursor": "exit"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "lynch",
+      "name": "William Lynch",
+      "polygon": {
+        "points": [
+          { "x": 350, "y": 280 },
+          { "x": 480, "y": 280 },
+          { "x": 480, "y": 420 },
+          { "x": 350, "y": 420 }
+        ]
+      },
+      "interactionPoint": { "x": 420, "y": 460 },
+      "cursor": "talk",
+      "lookScript": [
+        { "type": "narrate", "text": "William Lynch — a tall, enthusiastic man with the air of a dreamer. He's studying a map of the cave system." }
+      ],
+      "talkScript": [
+        { "type": "startDialogue", "characterId": "lynch" }
+      ]
+    },
+    {
+      "id": "genevieve",
+      "name": "Genevieve Lynch",
+      "polygon": {
+        "points": [
+          { "x": 600, "y": 280 },
+          { "x": 720, "y": 280 },
+          { "x": 720, "y": 420 },
+          { "x": 600, "y": 420 }
+        ]
+      },
+      "interactionPoint": { "x": 660, "y": 460 },
+      "cursor": "talk",
+      "lookScript": [
+        { "type": "narrate", "text": "A practical-looking woman with kind eyes. She seems less enchanted by the cave than her husband, but supportive of his dream." }
+      ],
+      "talkScript": [
+        { "type": "startDialogue", "characterId": "genevieve" }
+      ]
+    },
+    {
+      "id": "cave_map",
+      "name": "Cave Survey Map",
+      "polygon": {
+        "points": [
+          { "x": 200, "y": 150 },
+          { "x": 350, "y": 150 },
+          { "x": 350, "y": 280 },
+          { "x": 200, "y": 280 }
+        ]
+      },
+      "interactionPoint": { "x": 280, "y": 460 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A detailed map of Marvel Cave, drawn by the previous mining company. It shows the Cathedral Room, Spring Room, and several unexplored passages." },
+        {
+          "type": "if",
+          "condition": "!getFlag('seen_cave_map')",
+          "then": [
+            { "type": "thought", "text": "Uncle Cornelius's handwriting in the margins! He was making notes about a 'hidden chamber' near the Spring Room." },
+            { "type": "setFlag", "flag": "seen_cave_map", "value": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deed_documents",
+      "name": "Property Documents",
+      "polygon": {
+        "points": [
+          { "x": 750, "y": 150 },
+          { "x": 880, "y": 150 },
+          { "x": 880, "y": 280 },
+          { "x": 750, "y": 280 }
+        ]
+      },
+      "interactionPoint": { "x": 820, "y": 460 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A stack of legal documents. The deed of sale, mining rights, and various permits. All signed by William Lynch." }
+      ],
+      "useScript": [
+        {
+          "type": "if",
+          "condition": "getFlag('met_lynch')",
+          "then": [
+            { "type": "say", "character": "Lynch", "text": "Feel free to examine them! Everything is perfectly legal, I assure you." },
+            { "type": "narrate", "text": "You look through the documents. Lynch's purchase seems legitimate, but..." },
+            { "type": "thought", "text": "Wait. These documents reference an 'original land grant' that should be on file at the county office. If the courthouse burned..." }
+          ],
+          "else": [
+            { "type": "thought", "text": "I should talk to Mr. Lynch before going through his papers." }
+          ]
+        }
+      ],
+      "useWithItem": {
+        "original_deed": [
+          { "type": "narrate", "text": "You compare the original deed with Lynch's documents." },
+          { "type": "thought", "text": "Lynch's deed is legitimate — he bought the property fair and square from the mining company. But..." },
+          { "type": "thought", "text": "The original Spanish land grant shows mineral rights were separated from surface rights in 1802. Lynch owns the cave, but someone else owns what's IN it." },
+          { "type": "setFlag", "flag": "discovered_rights_split", "value": true },
+          { "type": "puzzleSolved", "puzzleId": "understand_rights" }
+        ]
+      }
+    },
+    {
+      "id": "lantern_shelf",
+      "name": "Equipment Shelf",
+      "polygon": {
+        "points": [
+          { "x": 100, "y": 200 },
+          { "x": 200, "y": 200 },
+          { "x": 200, "y": 350 },
+          { "x": 100, "y": 350 }
+        ]
+      },
+      "interactionPoint": { "x": 150, "y": 460 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A shelf of exploration equipment. Lanterns, rope, and a proper rock hammer for collecting specimens." }
+      ],
+      "useScript": [
+        {
+          "type": "if",
+          "condition": "!hasItem('rock_hammer') && getFlag('met_lynch')",
+          "then": [
+            { "type": "say", "character": "Lynch", "text": "Take whatever you need! A fellow explorer should be properly equipped." },
+            { "type": "giveItem", "itemId": "rock_hammer" },
+            { "type": "thought", "text": "This rock hammer will be useful for collecting samples in the cave." }
+          ],
+          "else": [
+            { "type": "thought", "text": "I have everything I need from here." }
+          ]
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "id": "lynch_sprite",
+      "characterId": "lynch",
+      "position": { "x": 420, "y": 420 },
+      "facing": "right"
+    },
+    {
+      "id": "genevieve_sprite",
+      "characterId": "genevieve",
+      "position": { "x": 660, "y": 420 },
+      "facing": "left"
+    }
+  ],
+  "onEnter": [
+    {
+      "type": "if",
+      "condition": "!hasVisitedRoom('lynch_homestead')",
+      "then": [
+        { "type": "narrate", "text": "The Lynch homestead — a modest but sturdy cabin overlooking the sinkhole. William Lynch waves you over enthusiastically." }
+      ]
+    },
+    {
+      "type": "if",
+      "condition": "getFlag('exposed_powell_publicly') && !getFlag('victory_scene_played')",
+      "then": [
+        { "type": "setFlag", "flag": "victory_scene_played", "value": true },
+        { "type": "say", "character": "Lynch", "text": "Miss Buckley! I heard what happened in town. You've saved me from a terrible mistake!" },
+        { "type": "say", "character": "Genevieve", "text": "Powell tried to convince William to sell him the mineral rights. Said they were worth a fortune in marble." },
+        { "type": "say", "character": "Lynch", "text": "If you hadn't exposed his fraud, I would have signed them over for a pittance. How can I ever repay you?" },
+        { "type": "reputation", "amount": 10 },
+        { "type": "puzzleSolved", "puzzleId": "secure_cave_rights" }
+      ]
+    }
+  ]
+}

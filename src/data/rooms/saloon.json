@@ -1,0 +1,164 @@
+{
+  "id": "saloon",
+  "name": "The Last Chance Saloon",
+  "background": "bg_saloon",
+  "music": "music_saloon",
+  "walkableArea": {
+    "points": [
+      { "x": 80, "y": 420 },
+      { "x": 880, "y": 420 },
+      { "x": 880, "y": 580 },
+      { "x": 80, "y": 580 }
+    ]
+  },
+  "exits": [
+    {
+      "id": "to_town_square",
+      "targetRoom": "town_square",
+      "targetPosition": { "x": 420, "y": 480 },
+      "polygon": {
+        "points": [
+          { "x": 420, "y": 550 },
+          { "x": 540, "y": 550 },
+          { "x": 540, "y": 600 },
+          { "x": 420, "y": 600 }
+        ]
+      },
+      "cursor": "exit"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "bartender",
+      "name": "Bartender",
+      "polygon": {
+        "points": [
+          { "x": 400, "y": 250 },
+          { "x": 520, "y": 250 },
+          { "x": 520, "y": 420 },
+          { "x": 400, "y": 420 }
+        ]
+      },
+      "interactionPoint": { "x": 460, "y": 460 },
+      "cursor": "talk",
+      "lookScript": [
+        { "type": "narrate", "text": "A grizzled man with a impressive mustache polishes glasses behind the bar. He's seen better days — and better towns." }
+      ],
+      "talkScript": [
+        { "type": "startDialogue", "characterId": "bartender" }
+      ]
+    },
+    {
+      "id": "drunk_miner",
+      "name": "Former Miner",
+      "polygon": {
+        "points": [
+          { "x": 150, "y": 350 },
+          { "x": 250, "y": 350 },
+          { "x": 250, "y": 420 },
+          { "x": 150, "y": 420 }
+        ]
+      },
+      "interactionPoint": { "x": 200, "y": 460 },
+      "cursor": "talk",
+      "lookScript": [
+        { "type": "narrate", "text": "A worn-out man nursing a drink. His hands are scarred from years of mining work." }
+      ],
+      "talkScript": [
+        { "type": "startDialogue", "characterId": "drunk_miner" }
+      ]
+    },
+    {
+      "id": "piano",
+      "name": "Player Piano",
+      "polygon": {
+        "points": [
+          { "x": 700, "y": 200 },
+          { "x": 850, "y": 200 },
+          { "x": 850, "y": 380 },
+          { "x": 700, "y": 380 }
+        ]
+      },
+      "interactionPoint": { "x": 780, "y": 460 },
+      "cursor": "use",
+      "lookScript": [
+        { "type": "narrate", "text": "An old player piano, covered in dust. It hasn't made music in years." }
+      ],
+      "useScript": [
+        { "type": "narrate", "text": "You press a few keys. The sound is surprisingly clear, echoing through the nearly empty saloon." },
+        { "type": "say", "character": "Bartender", "text": "That thing still works? Well I'll be." }
+      ]
+    },
+    {
+      "id": "wanted_poster",
+      "name": "Wanted Poster",
+      "polygon": {
+        "points": [
+          { "x": 600, "y": 100 },
+          { "x": 700, "y": 100 },
+          { "x": 700, "y": 200 },
+          { "x": 600, "y": 200 }
+        ]
+      },
+      "interactionPoint": { "x": 650, "y": 460 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A faded wanted poster. 'BALD KNOBBERS - $500 REWARD. For arson, murder, and terrorizing Stone County citizens.'" },
+        { "type": "thought", "text": "The Bald Knobbers were hanged years ago. But their legacy of fear still haunts this town." }
+      ]
+    },
+    {
+      "id": "back_room_door",
+      "name": "Back Room",
+      "polygon": {
+        "points": [
+          { "x": 100, "y": 150 },
+          { "x": 180, "y": 150 },
+          { "x": 180, "y": 300 },
+          { "x": 100, "y": 300 }
+        ]
+      },
+      "interactionPoint": { "x": 140, "y": 460 },
+      "cursor": "use",
+      "lookScript": [
+        { "type": "narrate", "text": "A door leading to the back room. A sign reads 'PRIVATE - Card Games by Invitation Only.'" }
+      ],
+      "useScript": [
+        {
+          "type": "if",
+          "condition": "getFlag('poker_invite')",
+          "then": [
+            { "type": "narrate", "text": "You enter the back room. Powell is seated at a poker table, shuffling cards." },
+            { "type": "startDialogue", "characterId": "powell", "nodeId": "poker_game" }
+          ],
+          "else": [
+            { "type": "say", "character": "Bartender", "text": "That's a private game, friend. Invitation only." }
+          ]
+        }
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "id": "bartender_sprite",
+      "characterId": "bartender",
+      "position": { "x": 460, "y": 420 },
+      "facing": "left"
+    },
+    {
+      "id": "miner_sprite",
+      "characterId": "drunk_miner",
+      "position": { "x": 200, "y": 420 },
+      "facing": "right"
+    }
+  ],
+  "onEnter": [
+    {
+      "type": "if",
+      "condition": "!hasVisitedRoom('saloon')",
+      "then": [
+        { "type": "narrate", "text": "The Last Chance Saloon — one of the few buildings the Bald Knobbers didn't burn. Maybe because they needed somewhere to drink." }
+      ]
+    }
+  ]
+}

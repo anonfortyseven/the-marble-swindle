@@ -1,0 +1,150 @@
+{
+  "version": "1.0.0",
+  "characterId": "drunk_miner",
+  "characterName": "Old Silas",
+  "defaultPortrait": "/images/portraits/miner_neutral.png",
+  "dialogues": [
+    {
+      "id": "drunk_miner_main",
+      "characterId": "drunk_miner",
+      "startNode": "start",
+      "metadata": {
+        "title": "Speaking with the Drunk Miner",
+        "description": "Conversation with Old Silas who worked in the mine",
+        "priority": 100
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Old Silas",
+          "text": "*hic* Another drink... another drink to forget those caves...",
+          "emotion": "drunk",
+          "choices": [
+            {
+              "id": "buy_drink",
+              "text": "Let me buy you a drink.",
+              "targetNode": "grateful",
+              "condition": "hasItem('silver_dollar')"
+            },
+            {
+              "id": "ask_caves",
+              "text": "What do you know about the caves?",
+              "targetNode": "caves_memory"
+            },
+            {
+              "id": "ask_marble",
+              "text": "Was there really marble in the cave?",
+              "targetNode": "marble_truth"
+            },
+            {
+              "id": "leave",
+              "text": "Never mind.",
+              "targetNode": "farewell"
+            }
+          ]
+        },
+        "grateful": {
+          "id": "grateful",
+          "speaker": "Old Silas",
+          "text": "Bless you, stranger. *hic* You're the first kind soul I've met in weeks. What do you want to know? I'll tell you anything.",
+          "emotion": "grateful",
+          "onEnter": [
+            { "type": "takeItem", "itemId": "silver_dollar" },
+            { "type": "setFlag", "flag": "silas_grateful", "value": true }
+          ],
+          "choices": [
+            {
+              "id": "ask_caves_grateful",
+              "text": "Tell me about the caves.",
+              "targetNode": "caves_detailed"
+            },
+            {
+              "id": "ask_marble_grateful",
+              "text": "Was there marble in that cave?",
+              "targetNode": "marble_detailed"
+            },
+            {
+              "id": "ask_cornelius",
+              "text": "Did you ever meet a man named Cornelius Buckley?",
+              "targetNode": "knows_cornelius"
+            }
+          ]
+        },
+        "caves_memory": {
+          "id": "caves_memory",
+          "speaker": "Old Silas",
+          "text": "The caves? Dark as a widow's heart, they are. We dug for guano — bat droppings — sold it for gunpowder. Nasty work.",
+          "emotion": "haunted",
+          "next": "start"
+        },
+        "caves_detailed": {
+          "id": "caves_detailed",
+          "speaker": "Old Silas",
+          "text": "I worked those caves for five years. Every tunnel, every chamber. The Cathedral Room, the Spring Room, all of it. Until they threw us out.",
+          "next": "mining_company"
+        },
+        "mining_company": {
+          "id": "mining_company",
+          "speaker": "Old Silas",
+          "text": "The Marble Cave Mining Company. Ha! They called it marble to sell shares to Eastern investors. But we never dug up no marble. Just guano and limestone.",
+          "emotion": "bitter",
+          "onEnter": [
+            { "type": "setFlag", "flag": "silas_confirmed_fraud", "value": true }
+          ],
+          "next": "start"
+        },
+        "marble_truth": {
+          "id": "marble_truth",
+          "speaker": "Old Silas",
+          "text": "*hic* Marble? Hahahaha! That's a good one. Never was no marble. Just limestone. Pretty limestone, mind you, but limestone all the same.",
+          "emotion": "amused",
+          "next": "start"
+        },
+        "marble_detailed": {
+          "id": "marble_detailed",
+          "speaker": "Old Silas",
+          "text": "The company founders knew there was no marble. They hired a geologist from St. Louis to fake the assay reports. Made a fortune selling worthless shares.",
+          "emotion": "bitter",
+          "next": "original_fraud"
+        },
+        "original_fraud": {
+          "id": "original_fraud",
+          "speaker": "Old Silas",
+          "text": "When the investors came to see their 'marble quarry,' the company was already bankrupt. The founders had fled to California with all the money.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "learned_original_fraud", "value": true }
+          ],
+          "next": "start"
+        },
+        "knows_cornelius": {
+          "id": "knows_cornelius",
+          "speaker": "Old Silas",
+          "text": "Cornelius? The fellow with all the questions? He bought me drinks too. Asked about the old days, the mining company, the Spanish explorers...",
+          "next": "cornelius_discovery"
+        },
+        "cornelius_discovery": {
+          "id": "cornelius_discovery",
+          "speaker": "Old Silas",
+          "text": "He was excited about something. Said he'd found proof of an old land grant — something about separated mineral rights. Said it would 'change everything.'",
+          "onEnter": [
+            { "type": "setFlag", "flag": "silas_cornelius_hint", "value": true }
+          ],
+          "next": "cornelius_warning"
+        },
+        "cornelius_warning": {
+          "id": "cornelius_warning",
+          "speaker": "Old Silas",
+          "text": "Then he went into the caves one day and never came back. Some say he got lost. Some say... something found him.",
+          "emotion": "haunted",
+          "next": "start"
+        },
+        "farewell": {
+          "id": "farewell",
+          "speaker": "Old Silas",
+          "text": "*hic* Suit yourself...",
+          "endConversation": true
+        }
+      }
+    }
+  ]
+}

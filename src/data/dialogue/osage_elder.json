@@ -1,0 +1,169 @@
+{
+  "version": "1.0.0",
+  "characterId": "osage_elder",
+  "characterName": "Osage Elder",
+  "defaultPortrait": "/images/portraits/osage_elder_neutral.png",
+  "dialogues": [
+    {
+      "id": "osage_elder_main",
+      "characterId": "osage_elder",
+      "startNode": "start",
+      "metadata": {
+        "title": "Speaking with the Osage Elder",
+        "description": "Wisdom and hints from the Osage Elder",
+        "priority": 100
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Osage Elder",
+          "text": "You carry questions in your eyes, young one. Ask, and perhaps the spirits will answer through me.",
+          "emotion": "wise",
+          "choices": [
+            {
+              "id": "about_cave",
+              "text": "Tell me about the cave.",
+              "targetNode": "cave_wisdom"
+            },
+            {
+              "id": "about_spanish",
+              "text": "Did the Spanish really explore this land?",
+              "targetNode": "spanish_history"
+            },
+            {
+              "id": "about_marble",
+              "text": "Is there really marble in that cave?",
+              "targetNode": "marble_truth",
+              "condition": "getFlag('looking_for_marble_proof')"
+            },
+            {
+              "id": "about_uncle",
+              "text": "Have you seen my uncle, Cornelius Buckley?",
+              "targetNode": "about_cornelius"
+            },
+            {
+              "id": "hint_request",
+              "text": "I don't know what to do next.",
+              "targetNode": "provide_hint"
+            },
+            {
+              "id": "leave",
+              "text": "Thank you for your wisdom.",
+              "targetNode": "farewell"
+            }
+          ]
+        },
+        "cave_wisdom": {
+          "id": "cave_wisdom",
+          "speaker": "Osage Elder",
+          "text": "My people called it the Devil's Den. Not because evil dwelled there, but because men who entered often lost themselves to greed.",
+          "next": "cave_warning"
+        },
+        "cave_warning": {
+          "id": "cave_warning",
+          "speaker": "Osage Elder",
+          "text": "The cave takes what you bring to it. Bring fear, find danger. Bring greed, find ruin. Bring wisdom, find truth.",
+          "emotion": "serious",
+          "onEnter": [
+            { "type": "setFlag", "flag": "received_osage_wisdom", "value": true }
+          ],
+          "next": "start"
+        },
+        "spanish_history": {
+          "id": "spanish_history",
+          "speaker": "Osage Elder",
+          "text": "The bearded men came centuries ago. They sought gold and found darkness. They left a ladder and bones, nothing more.",
+          "choices": [
+            {
+              "id": "what_bones",
+              "text": "Bones? What happened to them?",
+              "targetNode": "spanish_fate"
+            },
+            {
+              "id": "back_to_topics",
+              "text": "I have other questions.",
+              "targetNode": "start"
+            }
+          ]
+        },
+        "spanish_fate": {
+          "id": "spanish_fate",
+          "speaker": "Osage Elder",
+          "text": "Greed. They fought over something they found — or thought they found. The cave kept their secrets, and their bones. It keeps secrets still.",
+          "emotion": "sad",
+          "onEnter": [
+            { "type": "setFlag", "flag": "learned_spanish_secret", "value": true }
+          ],
+          "next": "start"
+        },
+        "marble_truth": {
+          "id": "marble_truth",
+          "speaker": "Osage Elder",
+          "text": "Marble? The stone that sculptors prize?",
+          "next": "marble_answer"
+        },
+        "marble_answer": {
+          "id": "marble_answer",
+          "speaker": "Osage Elder",
+          "text": "There is no marble in that cave. Only limestone, formed by ancient seas. The white man sees what he wants to see, calls it what he wants to call it.",
+          "emotion": "knowing",
+          "next": "marble_hint"
+        },
+        "marble_hint": {
+          "id": "marble_hint",
+          "speaker": "Osage Elder",
+          "text": "If you seek proof, let the rock speak for itself. A hammer and a learned eye can tell limestone from marble as easily as day from night.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "osage_hint_marble", "value": true }
+          ],
+          "next": "start"
+        },
+        "about_cornelius": {
+          "id": "about_cornelius",
+          "speaker": "Osage Elder",
+          "text": "The curious one with many questions and restless eyes? Yes. He came to me seeking the same truths you seek.",
+          "next": "cornelius_fate"
+        },
+        "cornelius_fate": {
+          "id": "cornelius_fate",
+          "speaker": "Osage Elder",
+          "text": "He learned too much, too quickly. The cave has him now. But not forever — nothing is forever. Follow the water, and you may yet find him.",
+          "emotion": "cryptic",
+          "onEnter": [
+            { "type": "setFlag", "flag": "osage_cornelius_hint", "value": true }
+          ],
+          "next": "start"
+        },
+        "provide_hint": {
+          "id": "provide_hint",
+          "speaker": "Osage Elder",
+          "text": "The spirits show me glimpses of your path...",
+          "next": "dynamic_hint"
+        },
+        "dynamic_hint": {
+          "id": "dynamic_hint",
+          "speaker": "Osage Elder",
+          "text": "Seek the truth in stone. The con man's lies can be proven false, but only with evidence from the earth itself. The assay office holds tools and records.",
+          "emotion": "mysterious",
+          "next": "hint_followup"
+        },
+        "hint_followup": {
+          "id": "hint_followup",
+          "speaker": "Osage Elder",
+          "text": "Three threads you must follow: expose the lie, secure the rights, win the people. All three must be woven together.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "received_puzzle_overview", "value": true }
+          ],
+          "next": "start"
+        },
+        "farewell": {
+          "id": "farewell",
+          "speaker": "Osage Elder",
+          "text": "May you find what you seek without losing what you have.",
+          "emotion": "peaceful",
+          "endConversation": true
+        }
+      }
+    }
+  ]
+}

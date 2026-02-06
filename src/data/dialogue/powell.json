@@ -1,0 +1,326 @@
+{
+  "version": "1.0.0",
+  "characterId": "powell",
+  "characterName": "Truman Powell",
+  "defaultPortrait": "/images/portraits/powell_neutral.png",
+  "dialogues": [
+    {
+      "id": "powell_intro",
+      "characterId": "powell",
+      "startNode": "start",
+      "metadata": {
+        "title": "First Meeting with Powell",
+        "description": "Initial encounter with the antagonist",
+        "priority": 100,
+        "condition": "!getFlag('met_powell') && getFlag('powell_arrived')"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Powell",
+          "text": "Well, well! Another interested party! Truman Powell, at your service. I represent the Stone County Marble Investment Company.",
+          "emotion": "charming",
+          "onEnter": [
+            { "type": "setFlag", "flag": "met_powell", "value": true }
+          ],
+          "next": "pitch"
+        },
+        "pitch": {
+          "id": "pitch",
+          "speaker": "Powell",
+          "text": "Have you heard about the marble deposits in Marvel Cave? Finest quality stone this side of Italy! We're offering investment shares at very reasonable rates.",
+          "choices": [
+            {
+              "id": "skeptical",
+              "text": "I've heard there's no marble in that cave.",
+              "targetNode": "deflect_skepticism"
+            },
+            {
+              "id": "interested",
+              "text": "Tell me more about these shares.",
+              "targetNode": "investment_pitch"
+            },
+            {
+              "id": "uncle_question",
+              "text": "I'm looking for my uncle, Cornelius Buckley.",
+              "targetNode": "about_cornelius"
+            },
+            {
+              "id": "leave",
+              "text": "I'm not interested.",
+              "targetNode": "end_polite"
+            }
+          ]
+        },
+        "deflect_skepticism": {
+          "id": "deflect_skepticism",
+          "speaker": "Powell",
+          "text": "Ah, you've been listening to the locals! They don't understand geology. The assay office has samples that prove the marble exists. Grade A quality!",
+          "emotion": "dismissive",
+          "onEnter": [
+            { "type": "setFlag", "flag": "powell_claimed_samples", "value": true }
+          ],
+          "choices": [
+            {
+              "id": "challenge",
+              "text": "Then you won't mind if I verify those samples.",
+              "targetNode": "accepts_challenge"
+            },
+            {
+              "id": "back_to_pitch",
+              "text": "What about these investment shares?",
+              "targetNode": "investment_pitch"
+            }
+          ]
+        },
+        "accepts_challenge": {
+          "id": "accepts_challenge",
+          "speaker": "Powell",
+          "text": "By all means! Ask the assay clerk yourself. He'll confirm everything I've said.",
+          "emotion": "confident",
+          "next": "end"
+        },
+        "investment_pitch": {
+          "id": "investment_pitch",
+          "speaker": "Powell",
+          "text": "For just fifty dollars, you can own a piece of history! When we start quarrying, your shares will be worth ten times that. Maybe a hundred times!",
+          "choices": [
+            {
+              "id": "scam_sense",
+              "text": "This sounds like a confidence scheme.",
+              "targetNode": "offended"
+            },
+            {
+              "id": "consider",
+              "text": "I'll think about it.",
+              "targetNode": "end_polite"
+            }
+          ]
+        },
+        "offended": {
+          "id": "offended",
+          "speaker": "Powell",
+          "text": "I'm deeply offended by that accusation! I'm a legitimate businessman with the papers to prove it. Now if you'll excuse me, I have investors to attend to.",
+          "emotion": "angry",
+          "endConversation": true
+        },
+        "about_cornelius": {
+          "id": "about_cornelius",
+          "speaker": "Powell",
+          "text": "Cornelius Buckley? The name doesn't ring a bell, I'm afraid. I've only just arrived in Marmaros.",
+          "emotion": "neutral",
+          "onEnter": [
+            { "type": "setFlag", "flag": "powell_denied_cornelius", "value": true }
+          ],
+          "choices": [
+            {
+              "id": "press_cornelius",
+              "text": "He was researching the cave. Are you sure you didn't meet him?",
+              "targetNode": "denies_again"
+            },
+            {
+              "id": "drop_it",
+              "text": "Never mind. Tell me about your company.",
+              "targetNode": "investment_pitch"
+            }
+          ]
+        },
+        "denies_again": {
+          "id": "denies_again",
+          "speaker": "Powell",
+          "text": "Quite sure. Now, about those investment opportunities...",
+          "emotion": "evasive",
+          "next": "investment_pitch"
+        },
+        "end_polite": {
+          "id": "end_polite",
+          "speaker": "Powell",
+          "text": "Do think it over! Opportunity knocks but once, as they say. You know where to find me.",
+          "emotion": "charming",
+          "endConversation": true
+        },
+        "end": {
+          "id": "end",
+          "speaker": "Powell",
+          "text": "Good day to you.",
+          "endConversation": true
+        }
+      }
+    },
+    {
+      "id": "powell_confrontation",
+      "characterId": "powell",
+      "startNode": "start",
+      "metadata": {
+        "title": "Confronting Powell with Evidence",
+        "description": "When player has evidence of the fraud",
+        "priority": 150,
+        "condition": "getFlag('met_powell') && getFlag('has_official_proof')"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Powell",
+          "text": "Ah, you again. Have you reconsidered my offer?",
+          "emotion": "smug",
+          "choices": [
+            {
+              "id": "confront",
+              "text": "I know the truth about your 'marble' scheme.",
+              "targetNode": "confronted"
+            },
+            {
+              "id": "bluff",
+              "text": "I might be interested... for the right price.",
+              "targetNode": "interested"
+            }
+          ]
+        },
+        "confronted": {
+          "id": "confronted",
+          "speaker": "Powell",
+          "text": "I don't know what you're implying, but I'd be very careful making accusations without proof.",
+          "emotion": "threatening",
+          "choices": [
+            {
+              "id": "show_report",
+              "text": "This assay report proves there's no marble.",
+              "targetNode": "dismisses_report"
+            },
+            {
+              "id": "show_records",
+              "text": "I found records of your previous swindles.",
+              "targetNode": "caught",
+              "condition": "getFlag('found_powell_records')"
+            }
+          ]
+        },
+        "dismisses_report": {
+          "id": "dismisses_report",
+          "speaker": "Powell",
+          "text": "A single assay? That proves nothing. The marble deposits are deeper in the cave. You'd need an army of geologists to disprove my claims.",
+          "emotion": "dismissive",
+          "next": "start"
+        },
+        "caught": {
+          "id": "caught",
+          "speaker": "Powell",
+          "text": "Where did you... How did you...",
+          "emotion": "panicked",
+          "next": "threatens"
+        },
+        "threatens": {
+          "id": "threatens",
+          "speaker": "Powell",
+          "text": "Now you listen to me, Miss Buckley. Those records were supposed to be sealed. You're playing a dangerous game.",
+          "emotion": "threatening",
+          "choices": [
+            {
+              "id": "not_scared",
+              "text": "I'm going to show these to everyone in town.",
+              "targetNode": "powell_flees"
+            },
+            {
+              "id": "deal",
+              "text": "Unless you want to make a deal.",
+              "targetNode": "offer_deal"
+            }
+          ]
+        },
+        "powell_flees": {
+          "id": "powell_flees",
+          "speaker": "Powell",
+          "text": "We'll see about that!",
+          "emotion": "angry",
+          "onEnter": [
+            { "type": "setFlag", "flag": "powell_threatened", "value": true }
+          ],
+          "endConversation": true
+        },
+        "offer_deal": {
+          "id": "offer_deal",
+          "speaker": "Powell",
+          "text": "A deal? Ha! You think I'd trust someone like you? I'm leaving this backwater town before anyone else gets any ideas.",
+          "emotion": "contemptuous",
+          "onEnter": [
+            { "type": "setFlag", "flag": "powell_leaving", "value": true }
+          ],
+          "endConversation": true
+        },
+        "interested": {
+          "id": "interested",
+          "speaker": "Powell",
+          "text": "Now that's more like it! I knew you were a sensible woman. Shall we discuss terms?",
+          "emotion": "eager",
+          "next": "start"
+        }
+      }
+    },
+    {
+      "id": "powell_poker",
+      "characterId": "powell",
+      "startNode": "poker_game",
+      "metadata": {
+        "title": "Poker Game with Powell",
+        "description": "Optional poker game in saloon back room",
+        "priority": 50,
+        "condition": "getFlag('poker_invite')"
+      },
+      "nodes": {
+        "poker_game": {
+          "id": "poker_game",
+          "speaker": "Powell",
+          "text": "Ah, our guest of honor! Care for a friendly game of five-card draw? Ten dollar ante.",
+          "choices": [
+            {
+              "id": "play",
+              "text": "Deal me in.",
+              "targetNode": "play_poker",
+              "condition": "hasItem('silver_dollar')"
+            },
+            {
+              "id": "watch",
+              "text": "I'll just watch for now.",
+              "targetNode": "watch_game"
+            },
+            {
+              "id": "decline",
+              "text": "I don't gamble.",
+              "targetNode": "end"
+            }
+          ]
+        },
+        "play_poker": {
+          "id": "play_poker",
+          "speaker": "Powell",
+          "text": "Excellent! Let's see what Lady Luck has in store for you...",
+          "onEnter": [
+            { "type": "takeItem", "itemId": "silver_dollar" },
+            { "type": "setFlag", "flag": "played_poker", "value": true }
+          ],
+          "next": "poker_result"
+        },
+        "poker_result": {
+          "id": "poker_result",
+          "speaker": "Powell",
+          "text": "Well played! But I'm afraid my full house beats your pair. Better luck next time.",
+          "emotion": "smug",
+          "next": "end"
+        },
+        "watch_game": {
+          "id": "watch_game",
+          "speaker": "Powell",
+          "text": "Suit yourself. Sometimes the wisest gamble is not to play at all.",
+          "emotion": "knowing",
+          "endConversation": true
+        },
+        "end": {
+          "id": "end",
+          "speaker": "Powell",
+          "text": "The game continues with or without you.",
+          "endConversation": true
+        }
+      }
+    }
+  ]
+}

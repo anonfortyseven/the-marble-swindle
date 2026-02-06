@@ -1,0 +1,216 @@
+{
+  "id": "cathedral_room",
+  "name": "The Cathedral Room",
+  "background": "bg_cathedral_room",
+  "music": "music_cave_ambient",
+  "ambience": "ambient_cave_drips",
+  "walkableArea": {
+    "points": [
+      { "x": 80, "y": 450 },
+      { "x": 880, "y": 450 },
+      { "x": 900, "y": 580 },
+      { "x": 60, "y": 580 }
+    ]
+  },
+  "exits": [
+    {
+      "id": "to_sinkhole",
+      "targetRoom": "sinkhole",
+      "targetPosition": { "x": 480, "y": 420 },
+      "polygon": {
+        "points": [
+          { "x": 420, "y": 50 },
+          { "x": 560, "y": 50 },
+          { "x": 560, "y": 150 },
+          { "x": 420, "y": 150 }
+        ]
+      },
+      "cursor": "exit"
+    },
+    {
+      "id": "to_spring_room",
+      "targetRoom": "spring_room",
+      "targetPosition": { "x": 100, "y": 500 },
+      "condition": "getFlag('knows_spring_room_location')",
+      "polygon": {
+        "points": [
+          { "x": 850, "y": 400 },
+          { "x": 960, "y": 400 },
+          { "x": 960, "y": 550 },
+          { "x": 850, "y": 550 }
+        ]
+      },
+      "cursor": "exit"
+    },
+    {
+      "id": "to_bat_chamber",
+      "targetRoom": "bat_chamber",
+      "targetPosition": { "x": 800, "y": 500 },
+      "polygon": {
+        "points": [
+          { "x": 0, "y": 400 },
+          { "x": 100, "y": 400 },
+          { "x": 100, "y": 550 },
+          { "x": 0, "y": 550 }
+        ]
+      },
+      "cursor": "exit"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "spanish_ladder",
+      "name": "Spanish Ladder",
+      "polygon": {
+        "points": [
+          { "x": 600, "y": 200 },
+          { "x": 700, "y": 200 },
+          { "x": 700, "y": 450 },
+          { "x": 600, "y": 450 }
+        ]
+      },
+      "interactionPoint": { "x": 650, "y": 480 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "An ancient cedar pole ladder, lashed together with rawhide. The conquistadors left this here over 300 years ago." },
+        { "type": "thought", "text": "Preserved perfectly by the cool, constant temperature of the cave. Remarkable." },
+        {
+          "type": "if",
+          "condition": "!getFlag('examined_spanish_ladder')",
+          "then": [
+            { "type": "setFlag", "flag": "examined_spanish_ladder", "value": true },
+            { "type": "thought", "text": "Uncle Cornelius mentioned this in his journal. 'The Spanish left more than a ladder,' he wrote." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cave_wall",
+      "name": "Cave Wall",
+      "polygon": {
+        "points": [
+          { "x": 200, "y": 100 },
+          { "x": 400, "y": 100 },
+          { "x": 400, "y": 350 },
+          { "x": 200, "y": 350 }
+        ]
+      },
+      "interactionPoint": { "x": 300, "y": 480 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "The cave wall is rough limestone, layered with mineral deposits. Some sections glitter in the lamplight." },
+        {
+          "type": "if",
+          "condition": "getFlag('looking_for_marble_proof')",
+          "then": [
+            { "type": "thought", "text": "This is definitely limestone, not marble. If I had a way to prove it..." }
+          ]
+        }
+      ],
+      "useWithItem": {
+        "rock_hammer": [
+          { "type": "narrate", "text": "You chip away a sample of the cave wall. It breaks cleanly along sedimentary layers." },
+          { "type": "giveItem", "itemId": "limestone_sample" },
+          { "type": "thought", "text": "This is limestone, not marble. Marble is metamorphic — it wouldn't break like this." },
+          { "type": "setFlag", "flag": "has_limestone_evidence", "value": true }
+        ]
+      }
+    },
+    {
+      "id": "guano_deposits",
+      "name": "Bat Guano Deposits",
+      "polygon": {
+        "points": [
+          { "x": 100, "y": 400 },
+          { "x": 200, "y": 400 },
+          { "x": 200, "y": 450 },
+          { "x": 100, "y": 450 }
+        ]
+      },
+      "interactionPoint": { "x": 150, "y": 480 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "Dark mounds of bat guano — the 'treasure' the mining company came for. Rich in nitrates, used for gunpowder and fertilizer." },
+        { "type": "thought", "text": "The mining company made a fortune off this before they went bust. $700 a ton, Maybelle said." }
+      ],
+      "useScript": [
+        {
+          "type": "if",
+          "condition": "!hasItem('bat_guano')",
+          "then": [
+            { "type": "narrate", "text": "You reluctantly scoop some guano into an empty jar." },
+            { "type": "giveItem", "itemId": "bat_guano" },
+            { "type": "thought", "text": "Disgusting, but it might be useful. This stuff was worth real money once." }
+          ],
+          "else": [
+            { "type": "thought", "text": "I have more than enough of this... substance." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "liberty_bell",
+      "name": "Liberty Bell Formation",
+      "polygon": {
+        "points": [
+          { "x": 750, "y": 150 },
+          { "x": 850, "y": 150 },
+          { "x": 850, "y": 350 },
+          { "x": 750, "y": 350 }
+        ]
+      },
+      "interactionPoint": { "x": 800, "y": 480 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A massive stalactite formation shaped exactly like the Liberty Bell. The name 'Marvel Cave' makes sense now." },
+        {
+          "type": "if",
+          "condition": "hasItem('journal_page_1') && !getFlag('found_liberty_bell_clue')",
+          "then": [
+            { "type": "thought", "text": "'The Liberty Bell knows the way.' Uncle Cornelius's note! There must be something hidden here." },
+            { "type": "setFlag", "flag": "found_liberty_bell_clue", "value": true }
+          ]
+        }
+      ],
+      "useScript": [
+        {
+          "type": "if",
+          "condition": "getFlag('found_liberty_bell_clue')",
+          "then": [
+            { "type": "narrate", "text": "You examine the formation carefully. Behind a thin curtain of flowstone, there's a hidden alcove." },
+            {
+              "type": "if",
+              "condition": "!getFlag('found_liberty_bell_cache')",
+              "then": [
+                { "type": "narrate", "text": "Inside, wrapped in oilcloth, is a bundle of documents!" },
+                { "type": "giveItem", "itemId": "original_deed" },
+                { "type": "setFlag", "flag": "found_liberty_bell_cache", "value": true },
+                { "type": "puzzleSolved", "puzzleId": "find_original_deed" },
+                { "type": "thought", "text": "The original land deed! This proves who really owns the cave rights!" }
+              ],
+              "else": [
+                { "type": "thought", "text": "The alcove is empty now. I already found what was hidden here." }
+              ]
+            }
+          ],
+          "else": [
+            { "type": "thought", "text": "It's a beautiful formation, but I'm not sure what to do with it." }
+          ]
+        }
+      ]
+    }
+  ],
+  "characters": [],
+  "onEnter": [
+    {
+      "type": "if",
+      "condition": "!hasVisitedRoom('cathedral_room')",
+      "then": [
+        { "type": "fadeIn", "duration": 1000 },
+        { "type": "narrate", "text": "You descend into the Cathedral Room — a massive underground chamber two hundred feet high." },
+        { "type": "narrate", "text": "Your lantern barely illuminates the towering limestone formations. The darkness seems infinite." },
+        { "type": "thought", "text": "Uncle Cornelius came down here. And he never came back up." }
+      ]
+    }
+  ]
+}

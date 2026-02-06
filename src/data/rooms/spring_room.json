@@ -1,0 +1,154 @@
+{
+  "id": "spring_room",
+  "name": "The Spring Room",
+  "background": "bg_spring_room",
+  "music": "music_cave_ambient",
+  "ambience": "ambient_water_drips",
+  "walkableArea": {
+    "points": [
+      { "x": 60, "y": 450 },
+      { "x": 900, "y": 450 },
+      { "x": 900, "y": 580 },
+      { "x": 60, "y": 580 }
+    ]
+  },
+  "exits": [
+    {
+      "id": "to_cathedral",
+      "targetRoom": "cathedral_room",
+      "targetPosition": { "x": 850, "y": 480 },
+      "polygon": {
+        "points": [
+          { "x": 0, "y": 400 },
+          { "x": 80, "y": 400 },
+          { "x": 80, "y": 550 },
+          { "x": 0, "y": 550 }
+        ]
+      },
+      "cursor": "exit"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "underground_lake",
+      "name": "Underground Lake",
+      "polygon": {
+        "points": [
+          { "x": 200, "y": 350 },
+          { "x": 700, "y": 350 },
+          { "x": 700, "y": 450 },
+          { "x": 200, "y": 450 }
+        ]
+      },
+      "interactionPoint": { "x": 450, "y": 480 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A still underground lake, fed by a natural spring. The water is crystal clear, revealing a depth of at least thirty feet." },
+        { "type": "thought", "text": "The Osage believed this was sacred water. I can see why." }
+      ]
+    },
+    {
+      "id": "orange_calcite_wall",
+      "name": "Orange Calcite Formations",
+      "polygon": {
+        "points": [
+          { "x": 700, "y": 100 },
+          { "x": 900, "y": 100 },
+          { "x": 900, "y": 350 },
+          { "x": 700, "y": 350 }
+        ]
+      },
+      "interactionPoint": { "x": 800, "y": 480 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "The walls glow with vibrant orange calcite deposits. In the lamplight, they look like frozen flames." },
+        { "type": "thought", "text": "This is what Uncle Cornelius was researching. The Spring Room." }
+      ],
+      "useWithItem": {
+        "rock_hammer": [
+          { "type": "narrate", "text": "You carefully chip off a sample of the orange calcite. It's beautiful, but fragile." },
+          { "type": "giveItem", "itemId": "orange_calcite" },
+          { "type": "thought", "text": "Pure calcite. Worth something to a mineral collector, maybe." }
+        ]
+      }
+    },
+    {
+      "id": "cornelius_camp",
+      "name": "Abandoned Camp",
+      "polygon": {
+        "points": [
+          { "x": 100, "y": 200 },
+          { "x": 250, "y": 200 },
+          { "x": 250, "y": 350 },
+          { "x": 100, "y": 350 }
+        ]
+      },
+      "interactionPoint": { "x": 180, "y": 480 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "An abandoned camp. A bedroll, some scientific instruments, and scattered papers. Someone was living here." },
+        { "type": "thought", "text": "Uncle Cornelius! He was here. But where is he now?" },
+        {
+          "type": "if",
+          "condition": "!getFlag('searched_cornelius_camp')",
+          "then": [
+            { "type": "setFlag", "flag": "searched_cornelius_camp", "value": true }
+          ]
+        }
+      ],
+      "useScript": [
+        {
+          "type": "if",
+          "condition": "!getFlag('found_cornelius_notes')",
+          "then": [
+            { "type": "narrate", "text": "You search through Uncle Cornelius's belongings. Among the papers, you find several torn journal pages." },
+            { "type": "giveItem", "itemId": "journal_page_1" },
+            { "type": "giveItem", "itemId": "journal_page_2" },
+            { "type": "giveItem", "itemId": "magnifying_glass" },
+            { "type": "setFlag", "flag": "found_cornelius_notes", "value": true },
+            { "type": "thought", "text": "These notes mention the 'marble swindle' and a hidden deed. Cornelius was on to something big." },
+            { "type": "setFlag", "flag": "looking_for_marble_proof", "value": true }
+          ],
+          "else": [
+            { "type": "thought", "text": "I've already searched this camp thoroughly." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hidden_passage",
+      "name": "Narrow Passage",
+      "condition": "getFlag('found_cornelius_notes')",
+      "polygon": {
+        "points": [
+          { "x": 850, "y": 200 },
+          { "x": 920, "y": 200 },
+          { "x": 920, "y": 350 },
+          { "x": 850, "y": 350 }
+        ]
+      },
+      "interactionPoint": { "x": 880, "y": 480 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A narrow passage leads deeper into the cave system. Fresh scrape marks suggest someone passed through recently." },
+        { "type": "thought", "text": "This must be where Uncle Cornelius went. But it looks too narrow for me to follow without proper equipment." }
+      ],
+      "useScript": [
+        { "type": "narrate", "text": "The passage is too narrow and treacherous to explore further right now." },
+        { "type": "thought", "text": "I'll need to find Uncle Cornelius another way. Maybe he left more clues elsewhere." }
+      ]
+    }
+  ],
+  "characters": [],
+  "onEnter": [
+    {
+      "type": "if",
+      "condition": "!hasVisitedRoom('spring_room')",
+      "then": [
+        { "type": "fadeIn", "duration": 1000 },
+        { "type": "narrate", "text": "The Spring Room opens before you — a cathedral of orange light reflected off the underground lake." },
+        { "type": "thought", "text": "This is the place Uncle Cornelius wrote about. He was searching for something here." }
+      ]
+    }
+  ]
+}

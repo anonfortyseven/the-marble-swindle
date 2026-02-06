@@ -41,6 +41,35 @@
         ]
       },
       "cursor": "exit"
+    },
+    {
+      "id": "to_lynch_homestead",
+      "targetRoom": "lynch_homestead",
+      "targetPosition": { "x": 100, "y": 480 },
+      "condition": "getFlag('know_lynch_location')",
+      "polygon": {
+        "points": [
+          { "x": 900, "y": 350 },
+          { "x": 960, "y": 350 },
+          { "x": 960, "y": 500 },
+          { "x": 900, "y": 500 }
+        ]
+      },
+      "cursor": "exit"
+    },
+    {
+      "id": "to_town_square",
+      "targetRoom": "town_square",
+      "targetPosition": { "x": 850, "y": 480 },
+      "polygon": {
+        "points": [
+          { "x": 750, "y": 550 },
+          { "x": 880, "y": 550 },
+          { "x": 880, "y": 600 },
+          { "x": 750, "y": 600 }
+        ]
+      },
+      "cursor": "exit"
     }
   ],
   "hotspots": [

@@ -1,0 +1,152 @@
+{
+  "version": "1.0.0",
+  "characterId": "genevieve",
+  "characterName": "Genevieve Lynch",
+  "defaultPortrait": "/images/portraits/genevieve_neutral.png",
+  "dialogues": [
+    {
+      "id": "genevieve_main",
+      "characterId": "genevieve",
+      "startNode": "start",
+      "metadata": {
+        "title": "Speaking with Genevieve Lynch",
+        "description": "Conversation with William Lynch's wife",
+        "priority": 100
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Genevieve",
+          "text": "Welcome, dear. I'm Genevieve Lynch. You must be the young woman looking for her uncle.",
+          "emotion": "warm",
+          "choices": [
+            {
+              "id": "about_uncle",
+              "text": "Yes, Cornelius Buckley. Have you seen him?",
+              "targetNode": "about_cornelius"
+            },
+            {
+              "id": "about_cave",
+              "text": "What do you think of your husband's cave venture?",
+              "targetNode": "about_venture"
+            },
+            {
+              "id": "about_powell",
+              "text": "Has a man named Powell contacted you?",
+              "targetNode": "about_powell",
+              "condition": "getFlag('met_powell')"
+            },
+            {
+              "id": "leave",
+              "text": "Just saying hello. I should go.",
+              "targetNode": "farewell"
+            }
+          ]
+        },
+        "about_cornelius": {
+          "id": "about_cornelius",
+          "speaker": "Genevieve",
+          "text": "Mr. Buckley? Yes, he stayed with us for a few days. A charming man, if a bit obsessed with his research.",
+          "next": "cornelius_concerns"
+        },
+        "cornelius_concerns": {
+          "id": "cornelius_concerns",
+          "speaker": "Genevieve",
+          "text": "I was worried about him, actually. He would disappear into the cave for hours at a time. William said he was just thorough, but...",
+          "emotion": "worried",
+          "choices": [
+            {
+              "id": "but_what",
+              "text": "But what?",
+              "targetNode": "cornelius_warning"
+            },
+            {
+              "id": "other_questions",
+              "text": "I have other questions.",
+              "targetNode": "start"
+            }
+          ]
+        },
+        "cornelius_warning": {
+          "id": "cornelius_warning",
+          "speaker": "Genevieve",
+          "text": "The night before he disappeared, he seemed frightened. Said he'd found something that 'certain people wouldn't want known.' He asked if we had a safe place to hide documents.",
+          "emotion": "concerned",
+          "onEnter": [
+            { "type": "setFlag", "flag": "genevieve_cornelius_hint", "value": true }
+          ],
+          "next": "where_hidden"
+        },
+        "where_hidden": {
+          "id": "where_hidden",
+          "speaker": "Genevieve",
+          "text": "William suggested the Liberty Bell formation in the cave — there's a hidden alcove behind it. Mr. Buckley seemed pleased with that idea.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "knows_hiding_spot", "value": true }
+          ],
+          "next": "start"
+        },
+        "about_venture": {
+          "id": "about_venture",
+          "speaker": "Genevieve",
+          "text": "William's dream? I support him, of course. He sees such potential in this place. A tourist attraction, he says. People coming from all over to see the wonders underground.",
+          "next": "venture_doubts"
+        },
+        "venture_doubts": {
+          "id": "venture_doubts",
+          "speaker": "Genevieve",
+          "text": "I just worry about the investment. We put everything we had into buying this property. If it doesn't work out...",
+          "emotion": "worried",
+          "next": "start"
+        },
+        "about_powell": {
+          "id": "about_powell",
+          "speaker": "Genevieve",
+          "text": "Powell? Oh yes, he's been here twice already. Trying to buy the mineral rights from William. Offering quite a lot of money.",
+          "emotion": "suspicious",
+          "next": "powell_opinion"
+        },
+        "powell_opinion": {
+          "id": "powell_opinion",
+          "speaker": "Genevieve",
+          "text": "I don't trust him. He's too smooth, if you know what I mean. I told William to be careful, but he's so eager to make connections...",
+          "choices": [
+            {
+              "id": "warn_about_powell",
+              "text": "Powell is running a fraud. You should tell William.",
+              "targetNode": "warning_received",
+              "condition": "getFlag('looking_for_marble_proof')"
+            },
+            {
+              "id": "agree",
+              "text": "Your instincts are right. Be careful.",
+              "targetNode": "appreciates"
+            }
+          ]
+        },
+        "warning_received": {
+          "id": "warning_received",
+          "speaker": "Genevieve",
+          "text": "A fraud? I knew it! That man's smile never reached his eyes. But William won't listen to suspicions — he'll need proof.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "genevieve_warned", "value": true }
+          ],
+          "next": "start"
+        },
+        "appreciates": {
+          "id": "appreciates",
+          "speaker": "Genevieve",
+          "text": "Thank you. It's good to know I'm not being paranoid. I'll keep an eye on things.",
+          "next": "start"
+        },
+        "farewell": {
+          "id": "farewell",
+          "speaker": "Genevieve",
+          "text": "Take care, dear. And I hope you find your uncle.",
+          "emotion": "kind",
+          "endConversation": true
+        }
+      }
+    }
+  ]
+}

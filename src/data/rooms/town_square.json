@@ -1,0 +1,238 @@
+{
+  "id": "town_square",
+  "name": "Marmaros Town Square",
+  "background": "bg_town_square",
+  "music": "music_town",
+  "ambience": "ambient_wind",
+  "walkableArea": {
+    "points": [
+      { "x": 50, "y": 420 },
+      { "x": 910, "y": 420 },
+      { "x": 910, "y": 580 },
+      { "x": 50, "y": 580 }
+    ]
+  },
+  "exits": [
+    {
+      "id": "to_general_store",
+      "targetRoom": "general_store",
+      "targetPosition": { "x": 850, "y": 480 },
+      "polygon": {
+        "points": [
+          { "x": 0, "y": 380 },
+          { "x": 80, "y": 380 },
+          { "x": 80, "y": 550 },
+          { "x": 0, "y": 550 }
+        ]
+      },
+      "cursor": "exit"
+    },
+    {
+      "id": "to_saloon",
+      "targetRoom": "saloon",
+      "targetPosition": { "x": 480, "y": 500 },
+      "polygon": {
+        "points": [
+          { "x": 350, "y": 150 },
+          { "x": 500, "y": 150 },
+          { "x": 500, "y": 300 },
+          { "x": 350, "y": 300 }
+        ]
+      },
+      "cursor": "exit"
+    },
+    {
+      "id": "to_assay_office",
+      "targetRoom": "assay_office",
+      "targetPosition": { "x": 850, "y": 480 },
+      "polygon": {
+        "points": [
+          { "x": 600, "y": 150 },
+          { "x": 750, "y": 150 },
+          { "x": 750, "y": 300 },
+          { "x": 600, "y": 300 }
+        ]
+      },
+      "cursor": "exit"
+    },
+    {
+      "id": "to_sinkhole",
+      "targetRoom": "sinkhole",
+      "targetPosition": { "x": 150, "y": 450 },
+      "polygon": {
+        "points": [
+          { "x": 880, "y": 380 },
+          { "x": 960, "y": 380 },
+          { "x": 960, "y": 550 },
+          { "x": 880, "y": 550 }
+        ]
+      },
+      "cursor": "exit"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "powell",
+      "name": "Truman Powell",
+      "condition": "getFlag('powell_arrived')",
+      "polygon": {
+        "points": [
+          { "x": 700, "y": 350 },
+          { "x": 820, "y": 350 },
+          { "x": 820, "y": 420 },
+          { "x": 700, "y": 420 }
+        ]
+      },
+      "interactionPoint": { "x": 760, "y": 460 },
+      "cursor": "talk",
+      "lookScript": [
+        { "type": "narrate", "text": "A well-dressed man with a silver-topped cane and an oily smile. He's addressing the townsfolk like a traveling preacher." },
+        { "type": "thought", "text": "That must be Truman Powell. The man trying to buy the cave from Lynch." }
+      ],
+      "talkScript": [
+        { "type": "startDialogue", "characterId": "powell" }
+      ]
+    },
+    {
+      "id": "osage_elder",
+      "name": "Osage Elder",
+      "polygon": {
+        "points": [
+          { "x": 100, "y": 320 },
+          { "x": 200, "y": 320 },
+          { "x": 200, "y": 420 },
+          { "x": 100, "y": 420 }
+        ]
+      },
+      "interactionPoint": { "x": 150, "y": 460 },
+      "cursor": "talk",
+      "lookScript": [
+        { "type": "narrate", "text": "An elderly Osage man sits quietly on the bench, watching the town with patient eyes. His presence seems out of place among the burned buildings." }
+      ],
+      "talkScript": [
+        { "type": "startDialogue", "characterId": "osage_elder" }
+      ]
+    },
+    {
+      "id": "notice_board",
+      "name": "Town Notice Board",
+      "polygon": {
+        "points": [
+          { "x": 250, "y": 200 },
+          { "x": 350, "y": 200 },
+          { "x": 350, "y": 350 },
+          { "x": 250, "y": 350 }
+        ]
+      },
+      "interactionPoint": { "x": 300, "y": 460 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A weathered notice board with various postings. Town ordinances, wanted posters, and a fresh handbill advertising 'MARVEL CAVE - Coming Soon! The 8th Wonder of the Underground World!'" },
+        {
+          "type": "if",
+          "condition": "getFlag('powell_arrived') && !getFlag('seen_powell_poster')",
+          "then": [
+            { "type": "thought", "text": "There's also a new poster: 'INVESTORS WANTED - Stone County Marble Company.' Powell's already making his move." },
+            { "type": "setFlag", "flag": "seen_powell_poster", "value": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "burned_courthouse",
+      "name": "Burned Courthouse",
+      "polygon": {
+        "points": [
+          { "x": 550, "y": 100 },
+          { "x": 750, "y": 100 },
+          { "x": 750, "y": 200 },
+          { "x": 550, "y": 200 }
+        ]
+      },
+      "interactionPoint": { "x": 650, "y": 460 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "The charred skeleton of what was once the Stone County Courthouse. The Bald Knobbers burned it in '86." },
+        { "type": "thought", "text": "All the official land records would have been destroyed. That's convenient for someone trying to file a fraudulent claim." }
+      ]
+    },
+    {
+      "id": "gathering_crowd",
+      "name": "Town Gathering",
+      "condition": "getFlag('town_meeting_active')",
+      "polygon": {
+        "points": [
+          { "x": 400, "y": 350 },
+          { "x": 600, "y": 350 },
+          { "x": 600, "y": 420 },
+          { "x": 400, "y": 420 }
+        ]
+      },
+      "interactionPoint": { "x": 500, "y": 460 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A crowd of Marmaros citizens has gathered. They're listening to Powell's pitch about investing in his 'marble' venture." },
+        {
+          "type": "if",
+          "condition": "getFlag('has_official_proof') && getFlag('found_powell_records')",
+          "then": [
+            { "type": "thought", "text": "I have the evidence to expose Powell's fraud. Now's the time to present it to the town." }
+          ],
+          "else": [
+            { "type": "thought", "text": "I need more evidence before I can convince these people that Powell is a fraud." }
+          ]
+        }
+      ],
+      "useWithItem": {
+        "official_assay_report": [
+          {
+            "type": "if",
+            "condition": "getFlag('found_powell_records')",
+            "then": [
+              { "type": "narrate", "text": "You step forward and address the crowd." },
+              { "type": "say", "character": "Clem", "text": "Wait! Before you invest a dime, you should know the truth about Marble Cave!" },
+              { "type": "narrate", "text": "Powell's smile falters as you hold up the official assay report." },
+              { "type": "say", "character": "Clem", "text": "This is an official Stone County assay proving there's no marble in that cave. It's all limestone — worthless as building material." },
+              { "type": "say", "character": "Powell", "text": "Now see here, that's clearly a forgery—" },
+              { "type": "say", "character": "Clem", "text": "And these are county records showing Truman Powell has pulled this exact swindle in THREE other counties!" },
+              { "type": "narrate", "text": "The crowd's murmur turns angry. People start backing away from Powell." },
+              { "type": "reputation", "amount": 25 },
+              { "type": "setFlag", "flag": "exposed_powell_publicly", "value": true },
+              { "type": "puzzleSolved", "puzzleId": "expose_marble_fraud" },
+              { "type": "puzzleSolved", "puzzleId": "win_town_support" }
+            ],
+            "else": [
+              { "type": "thought", "text": "The assay report isn't enough. I need proof of Powell's criminal history too." }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "characters": [
+    {
+      "id": "osage_elder_sprite",
+      "characterId": "osage_elder",
+      "position": { "x": 150, "y": 420 },
+      "facing": "right"
+    }
+  ],
+  "onEnter": [
+    {
+      "type": "if",
+      "condition": "!hasVisitedRoom('town_square')",
+      "then": [
+        { "type": "narrate", "text": "The town square of Marmaros — or what's left of it. Most buildings are burned shells, but a few stubborn souls still call this home." }
+      ]
+    },
+    {
+      "type": "if",
+      "condition": "getFlag('met_lynch') && !getFlag('powell_arrived')",
+      "then": [
+        { "type": "setFlag", "flag": "powell_arrived", "value": true },
+        { "type": "setFlag", "flag": "town_meeting_active", "value": true },
+        { "type": "narrate", "text": "A crowd has gathered around a well-dressed stranger who's just arrived in town." }
+      ]
+    }
+  ]
+}

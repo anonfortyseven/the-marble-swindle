@@ -1,0 +1,184 @@
+{
+  "id": "assay_office",
+  "name": "Stone County Assay Office",
+  "background": "bg_assay_office",
+  "music": "music_town",
+  "walkableArea": {
+    "points": [
+      { "x": 60, "y": 420 },
+      { "x": 900, "y": 420 },
+      { "x": 900, "y": 580 },
+      { "x": 60, "y": 580 }
+    ]
+  },
+  "exits": [
+    {
+      "id": "to_town_square",
+      "targetRoom": "town_square",
+      "targetPosition": { "x": 600, "y": 480 },
+      "polygon": {
+        "points": [
+          { "x": 900, "y": 400 },
+          { "x": 960, "y": 400 },
+          { "x": 960, "y": 580 },
+          { "x": 900, "y": 580 }
+        ]
+      },
+      "cursor": "exit"
+    }
+  ],
+  "hotspots": [
+    {
+      "id": "assay_clerk",
+      "name": "Assay Clerk",
+      "polygon": {
+        "points": [
+          { "x": 350, "y": 300 },
+          { "x": 480, "y": 300 },
+          { "x": 480, "y": 420 },
+          { "x": 350, "y": 420 }
+        ]
+      },
+      "interactionPoint": { "x": 420, "y": 460 },
+      "cursor": "talk",
+      "lookScript": [
+        { "type": "narrate", "text": "A thin, nervous-looking man with spectacles perched on his nose. He's surrounded by ledgers and mineral samples." }
+      ],
+      "talkScript": [
+        { "type": "startDialogue", "characterId": "assay_clerk" }
+      ]
+    },
+    {
+      "id": "mineral_samples",
+      "name": "Mineral Sample Display",
+      "polygon": {
+        "points": [
+          { "x": 100, "y": 150 },
+          { "x": 300, "y": 150 },
+          { "x": 300, "y": 350 },
+          { "x": 100, "y": 350 }
+        ]
+      },
+      "interactionPoint": { "x": 200, "y": 460 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "A display case showing labeled mineral samples from Stone County. Limestone, calcite, dolomite — and a piece labeled 'MARBLE from Marble Cave.'" },
+        { "type": "thought", "text": "Wait... that sample looks exactly like limestone. If I could get it tested properly..." },
+        { "type": "setFlag", "flag": "noticed_fake_marble_sample", "value": true }
+      ],
+      "useWithItem": {
+        "magnifying_glass": [
+          { "type": "narrate", "text": "You examine the 'marble' sample closely through the magnifying glass." },
+          { "type": "thought", "text": "Sedimentary layers clearly visible. This isn't marble at all — marble is metamorphic. Someone mislabeled this deliberately." },
+          { "type": "setFlag", "flag": "examined_fake_marble", "value": true },
+          {
+            "type": "if",
+            "condition": "getFlag('has_limestone_evidence')",
+            "then": [
+              { "type": "thought", "text": "Combined with my sample from the cave, this proves the 'Marble Cave' never had any marble. The whole thing was a fraud!" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "filing_cabinet",
+      "name": "Filing Cabinet",
+      "polygon": {
+        "points": [
+          { "x": 600, "y": 200 },
+          { "x": 750, "y": 200 },
+          { "x": 750, "y": 400 },
+          { "x": 600, "y": 400 }
+        ]
+      },
+      "interactionPoint": { "x": 680, "y": 460 },
+      "cursor": "use",
+      "lookScript": [
+        { "type": "narrate", "text": "A large oak filing cabinet containing county records. Land deeds, mining claims, assay reports." }
+      ],
+      "useScript": [
+        {
+          "type": "if",
+          "condition": "getFlag('clerk_distracted')",
+          "then": [
+            { "type": "narrate", "text": "While the clerk is distracted, you quickly search through the files." },
+            {
+              "type": "if",
+              "condition": "!getFlag('found_powell_records')",
+              "then": [
+                { "type": "narrate", "text": "You find a folder labeled 'Powell, T. - Mining Claims.' Inside are records of previous fraudulent claims in three other counties!" },
+                { "type": "giveItem", "itemId": "powell_fraud_records" },
+                { "type": "setFlag", "flag": "found_powell_records", "value": true },
+                { "type": "puzzleSolved", "puzzleId": "find_powell_records" },
+                { "type": "thought", "text": "Truman Powell has done this before! This proves he's a professional con man." }
+              ],
+              "else": [
+                { "type": "thought", "text": "I've already found what I needed here." }
+              ]
+            }
+          ],
+          "else": [
+            { "type": "say", "character": "Assay Clerk", "text": "Excuse me! Those are official county records. You can't just rummage through them!" },
+            { "type": "thought", "text": "I'll need to distract him somehow if I want to search those files." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "assay_equipment",
+      "name": "Assay Equipment",
+      "polygon": {
+        "points": [
+          { "x": 500, "y": 100 },
+          { "x": 600, "y": 100 },
+          { "x": 600, "y": 250 },
+          { "x": 500, "y": 250 }
+        ]
+      },
+      "interactionPoint": { "x": 550, "y": 460 },
+      "cursor": "look",
+      "lookScript": [
+        { "type": "narrate", "text": "Scales, acid bottles, and testing equipment for mineral assays. The tools of the trade for identifying ore quality." }
+      ],
+      "useWithItem": {
+        "limestone_sample": [
+          {
+            "type": "if",
+            "condition": "getFlag('clerk_will_test')",
+            "then": [
+              { "type": "say", "character": "Assay Clerk", "text": "Let me run the standard tests... hmm... interesting." },
+              { "type": "wait", "seconds": 1 },
+              { "type": "say", "character": "Assay Clerk", "text": "This is pure limestone. Calcium carbonate. Not a trace of metamorphic structure." },
+              { "type": "giveItem", "itemId": "official_assay_report" },
+              { "type": "takeItem", "itemId": "limestone_sample" },
+              { "type": "setFlag", "flag": "has_official_proof", "value": true },
+              { "type": "puzzleSolved", "puzzleId": "get_official_assay" },
+              { "type": "thought", "text": "An official report proving the 'marble' is just limestone. This is the evidence I need!" }
+            ],
+            "else": [
+              { "type": "thought", "text": "I need to convince the clerk to run an official test on this sample." }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "characters": [
+    {
+      "id": "clerk_sprite",
+      "characterId": "assay_clerk",
+      "position": { "x": 420, "y": 420 },
+      "facing": "left"
+    }
+  ],
+  "onEnter": [
+    {
+      "type": "if",
+      "condition": "!hasVisitedRoom('assay_office')",
+      "then": [
+        { "type": "narrate", "text": "The Stone County Assay Office. If you want to know what's really in the ground, this is the place to find out." }
+      ]
+    }
+  ]
+}

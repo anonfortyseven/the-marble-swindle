@@ -144,6 +144,41 @@
       "description": "A burlap sack filled with heavy rocks.",
       "icon": "/images/items/item_rocks.png",
       "examineText": "Limestone chunks. Heavy enough to balance something on a pulley system."
+    },
+    {
+      "id": "limestone_sample",
+      "name": "Cave Rock Sample",
+      "description": "A chunk of rock chipped from the cave wall.",
+      "icon": "/images/items/item_limestone.png",
+      "examineText": "Sedimentary limestone with visible layering. This is definitely NOT marble — marble is metamorphic rock with a crystalline structure. This proves the 'Marble Cave' name is fraudulent."
+    },
+    {
+      "id": "official_assay_report",
+      "name": "Official Assay Report",
+      "description": "A certified mineral analysis from Stone County.",
+      "icon": "/images/items/item_assay_report.png",
+      "examineText": "STONE COUNTY ASSAY OFFICE - MINERAL ANALYSIS REPORT. Sample composition: Calcium Carbonate (CaCO3) - 94%, Trace minerals - 6%. Classification: LIMESTONE. No metamorphic indicators present. This sample is NOT marble. Signed and sealed by the county assayer."
+    },
+    {
+      "id": "powell_fraud_records",
+      "name": "Powell's Fraud Records",
+      "description": "County records documenting previous swindles.",
+      "icon": "/images/items/item_records.png",
+      "examineText": "Records from Greene, Christian, and Taney Counties documenting mineral fraud cases involving one 'Truman P. Powell.' In each case, he sold shares in non-existent deposits. Wanted notices and civil judgments totaling over $50,000."
+    },
+    {
+      "id": "original_deed",
+      "name": "Original Spanish Land Grant",
+      "description": "An ancient document with a royal seal.",
+      "icon": "/images/items/item_deed.png",
+      "examineText": "A land grant from 1802, during Spanish rule of Louisiana Territory. It grants surface rights separately from mineral rights. The mineral rights to this land were retained by the Spanish crown — and later transferred to the U.S. government. This means neither Lynch nor Powell actually own what's IN the cave!"
+    },
+    {
+      "id": "cornelius_letter",
+      "name": "Letter from St. Louis University",
+      "description": "A letter addressed to Uncle Cornelius.",
+      "icon": "/images/items/item_letter.png",
+      "examineText": "Department of Geology, St. Louis University. 'Dear Mr. Buckley, Your suspicions are correct. The samples you sent are limestone, not marble. The original Marble Cave Mining Company assay reports were fraudulent. I recommend you contact the county authorities. Yours, Prof. Harrison Mills.'"
     }
   ]
 }

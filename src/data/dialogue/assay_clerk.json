@@ -1,0 +1,198 @@
+{
+  "version": "1.0.0",
+  "characterId": "assay_clerk",
+  "characterName": "Assay Clerk",
+  "defaultPortrait": "/images/portraits/clerk_neutral.png",
+  "dialogues": [
+    {
+      "id": "assay_clerk_main",
+      "characterId": "assay_clerk",
+      "startNode": "start",
+      "metadata": {
+        "title": "Speaking with the Assay Clerk",
+        "description": "Interaction with the county assay clerk",
+        "priority": 100
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Assay Clerk",
+          "text": "Good day. How may I assist you? This is the Stone County Assay Office. We handle mineral testing and official certifications.",
+          "emotion": "professional",
+          "onEnter": [
+            { "type": "setFlag", "flag": "met_clerk", "value": true }
+          ],
+          "choices": [
+            {
+              "id": "about_marble",
+              "text": "I'd like to know about the marble from Marble Cave.",
+              "targetNode": "marble_info"
+            },
+            {
+              "id": "test_sample",
+              "text": "I have a rock sample I need tested.",
+              "targetNode": "test_request",
+              "condition": "hasItem('limestone_sample')"
+            },
+            {
+              "id": "about_powell",
+              "text": "Do you have any records about Truman Powell?",
+              "targetNode": "powell_records"
+            },
+            {
+              "id": "distract",
+              "text": "Is that a fire outside?!",
+              "targetNode": "distraction_attempt"
+            },
+            {
+              "id": "leave",
+              "text": "Just looking around. Thank you.",
+              "targetNode": "farewell"
+            }
+          ]
+        },
+        "marble_info": {
+          "id": "marble_info",
+          "speaker": "Assay Clerk",
+          "text": "Ah yes, the famous marble deposits. We have samples on display. The Marble Cave Mining Company brought them in years ago. Grade A quality, they claimed.",
+          "next": "marble_truth"
+        },
+        "marble_truth": {
+          "id": "marble_truth",
+          "speaker": "Assay Clerk",
+          "text": "Though, between you and me, I've always had my doubts. The samples look more like limestone to me, but I wasn't working here when they were certified.",
+          "emotion": "conspiratorial",
+          "onEnter": [
+            { "type": "setFlag", "flag": "clerk_doubts_marble", "value": true }
+          ],
+          "next": "start"
+        },
+        "test_request": {
+          "id": "test_request",
+          "speaker": "Assay Clerk",
+          "text": "A sample? Well, official assays cost five dollars, and there's quite a bit of paperwork involved...",
+          "choices": [
+            {
+              "id": "pay_test",
+              "text": "I'll pay. This is important.",
+              "targetNode": "agrees_test",
+              "condition": "hasItem('silver_dollar')"
+            },
+            {
+              "id": "convince",
+              "text": "What if I told you this could expose a fraud?",
+              "targetNode": "interested_fraud"
+            },
+            {
+              "id": "cant_pay",
+              "text": "I don't have the money right now.",
+              "targetNode": "no_money"
+            }
+          ]
+        },
+        "interested_fraud": {
+          "id": "interested_fraud",
+          "speaker": "Assay Clerk",
+          "text": "A fraud? That's a serious accusation. But if there's misconduct involving certified samples... that would be my responsibility to investigate.",
+          "emotion": "concerned",
+          "next": "agrees_free"
+        },
+        "agrees_free": {
+          "id": "agrees_free",
+          "speaker": "Assay Clerk",
+          "text": "Tell you what. If you believe this is evidence of fraud, I'll run the test myself. Off the books. Professional curiosity.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "clerk_will_test", "value": true }
+          ],
+          "next": "test_instructions"
+        },
+        "agrees_test": {
+          "id": "agrees_test",
+          "speaker": "Assay Clerk",
+          "text": "Five dollars will cover it. Come back in an hour and I'll have your results.",
+          "onEnter": [
+            { "type": "takeItem", "itemId": "silver_dollar" },
+            { "type": "setFlag", "flag": "clerk_will_test", "value": true }
+          ],
+          "next": "test_instructions"
+        },
+        "test_instructions": {
+          "id": "test_instructions",
+          "speaker": "Assay Clerk",
+          "text": "Just place your sample on the assay equipment over there, and I'll run the standard mineral composition tests.",
+          "endConversation": true
+        },
+        "no_money": {
+          "id": "no_money",
+          "speaker": "Assay Clerk",
+          "text": "I'm sorry, but official tests require fees. County regulations.",
+          "next": "start"
+        },
+        "powell_records": {
+          "id": "powell_records",
+          "speaker": "Assay Clerk",
+          "text": "Records are confidential, I'm afraid. County regulations. Unless you have official authorization...",
+          "choices": [
+            {
+              "id": "push_records",
+              "text": "This man is running a fraud. People will lose their money.",
+              "targetNode": "sympathetic"
+            },
+            {
+              "id": "accept_no",
+              "text": "I understand. I have other questions.",
+              "targetNode": "start"
+            }
+          ]
+        },
+        "sympathetic": {
+          "id": "sympathetic",
+          "speaker": "Assay Clerk",
+          "text": "Look, I'd like to help, but I can't just let you go through the files. However... if I happened to step out for a few minutes...",
+          "emotion": "conflicted",
+          "choices": [
+            {
+              "id": "understand_hint",
+              "text": "I understand. And I'd be very grateful.",
+              "targetNode": "distraction_setup"
+            },
+            {
+              "id": "decline_hint",
+              "text": "I don't want you to risk your job.",
+              "targetNode": "start"
+            }
+          ]
+        },
+        "distraction_setup": {
+          "id": "distraction_setup",
+          "speaker": "Assay Clerk",
+          "text": "I could use some fresh air. I'll be back in five minutes.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "clerk_distracted", "value": true }
+          ],
+          "endConversation": true
+        },
+        "distraction_attempt": {
+          "id": "distraction_attempt",
+          "speaker": "Assay Clerk",
+          "text": "What? Fire?! Where?!",
+          "emotion": "panicked",
+          "next": "realizes_trick"
+        },
+        "realizes_trick": {
+          "id": "realizes_trick",
+          "speaker": "Assay Clerk",
+          "text": "Wait... there's no fire. Very funny. I'm not that easily fooled, you know.",
+          "emotion": "annoyed",
+          "next": "start"
+        },
+        "farewell": {
+          "id": "farewell",
+          "speaker": "Assay Clerk",
+          "text": "Feel free to examine the display samples. Good day.",
+          "endConversation": true
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+{
+  "version": "1.0.0",
+  "characterId": "bartender",
+  "characterName": "Jasper",
+  "defaultPortrait": "/images/portraits/bartender_neutral.png",
+  "dialogues": [
+    {
+      "id": "bartender_main",
+      "characterId": "bartender",
+      "startNode": "start",
+      "metadata": {
+        "title": "Speaking with the Bartender",
+        "description": "Conversation with Jasper the bartender",
+        "priority": 100
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Jasper",
+          "text": "Welcome to the Last Chance. What'll it be?",
+          "choices": [
+            {
+              "id": "drink",
+              "text": "I'll have a whiskey.",
+              "targetNode": "serve_drink"
+            },
+            {
+              "id": "ask_town",
+              "text": "Tell me about Marmaros.",
+              "targetNode": "about_town"
+            },
+            {
+              "id": "ask_powell",
+              "text": "What do you know about Truman Powell?",
+              "targetNode": "about_powell",
+              "condition": "getFlag('met_powell')"
+            },
+            {
+              "id": "ask_poker",
+              "text": "Who plays cards in the back room?",
+              "targetNode": "about_poker"
+            },
+            {
+              "id": "leave",
+              "text": "Just looking around.",
+              "targetNode": "farewell"
+            }
+          ]
+        },
+        "serve_drink": {
+          "id": "serve_drink",
+          "speaker": "Jasper",
+          "text": "That'll be two bits. Best rotgut in Stone County — which ain't saying much.",
+          "emotion": "wry",
+          "next": "start"
+        },
+        "about_town": {
+          "id": "about_town",
+          "speaker": "Jasper",
+          "text": "Not much to tell anymore. This was a mining town once. Then the mine went bust, the Bald Knobbers came through, and most folks left.",
+          "next": "town_survival"
+        },
+        "town_survival": {
+          "id": "town_survival",
+          "speaker": "Jasper",
+          "text": "I stayed because... well, where else would I go? At least here I own something. Even if it's just a half-empty saloon.",
+          "emotion": "philosophical",
+          "next": "start"
+        },
+        "about_powell": {
+          "id": "about_powell",
+          "speaker": "Jasper",
+          "text": "Powell? Slick talker. Came in here throwing money around, buying drinks for everyone, talking about marble fortunes.",
+          "next": "powell_opinion"
+        },
+        "powell_opinion": {
+          "id": "powell_opinion",
+          "speaker": "Jasper",
+          "text": "I've seen his type before. All flash and promises. But folks around here are desperate enough to believe anyone who offers hope.",
+          "emotion": "skeptical",
+          "choices": [
+            {
+              "id": "warn_people",
+              "text": "We should warn people he's a con man.",
+              "targetNode": "need_proof"
+            },
+            {
+              "id": "back_to_topics",
+              "text": "I have other questions.",
+              "targetNode": "start"
+            }
+          ]
+        },
+        "need_proof": {
+          "id": "need_proof",
+          "speaker": "Jasper",
+          "text": "Warn them? With what? A gut feeling? These folks need proof before they'll believe ill of someone buying them drinks. Get me evidence, and I'll help you spread the word.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "bartender_will_help", "value": true }
+          ],
+          "next": "start"
+        },
+        "about_poker": {
+          "id": "about_poker",
+          "speaker": "Jasper",
+          "text": "Private game. Invitation only. That Powell fellow's been running it since he arrived. High stakes, from what I hear.",
+          "choices": [
+            {
+              "id": "get_invite",
+              "text": "How do I get an invitation?",
+              "targetNode": "poker_invite"
+            },
+            {
+              "id": "back_to_topics_2",
+              "text": "I have other questions.",
+              "targetNode": "start"
+            }
+          ]
+        },
+        "poker_invite": {
+          "id": "poker_invite",
+          "speaker": "Jasper",
+          "text": "Powell invites anyone with deep pockets. Flash some silver and look like you're ready to lose it, and you'll get an invite soon enough.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "knows_poker_requirements", "value": true }
+          ],
+          "next": "poker_warning"
+        },
+        "poker_warning": {
+          "id": "poker_warning",
+          "speaker": "Jasper",
+          "text": "Word of advice? That man cheats. I've seen cards disappear up his sleeve. Don't play unless you're ready to lose.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "warned_about_cheating", "value": true }
+          ],
+          "next": "start"
+        },
+        "farewell": {
+          "id": "farewell",
+          "speaker": "Jasper",
+          "text": "Suit yourself. I'll be here.",
+          "endConversation": true
+        }
+      }
+    },
+    {
+      "id": "bartender_after_evidence",
+      "characterId": "bartender",
+      "startNode": "start",
+      "metadata": {
+        "title": "Bartender After Finding Evidence",
+        "description": "When player has proof of Powell's fraud",
+        "priority": 150,
+        "condition": "getFlag('has_official_proof') && getFlag('bartender_will_help')"
+      },
+      "nodes": {
+        "start": {
+          "id": "start",
+          "speaker": "Jasper",
+          "text": "You're back. Found something?",
+          "choices": [
+            {
+              "id": "show_proof",
+              "text": "I have proof that Powell's marble scheme is a fraud.",
+              "targetNode": "examine_proof"
+            },
+            {
+              "id": "not_yet",
+              "text": "Still working on it.",
+              "targetNode": "encourage"
+            }
+          ]
+        },
+        "examine_proof": {
+          "id": "examine_proof",
+          "speaker": "Jasper",
+          "text": "Let me see... well I'll be damned. An official assay report saying there's no marble. This is exactly what we needed.",
+          "emotion": "impressed",
+          "next": "spread_word"
+        },
+        "spread_word": {
+          "id": "spread_word",
+          "speaker": "Jasper",
+          "text": "Leave it to me. I know everyone in this town. By tomorrow, they'll all know Powell's a fraud. The town meeting in the square would be the perfect place to expose him publicly.",
+          "onEnter": [
+            { "type": "setFlag", "flag": "bartender_spreading_word", "value": true },
+            { "type": "reputation", "amount": 5 }
+          ],
+          "endConversation": true
+        },
+        "encourage": {
+          "id": "encourage",
+          "speaker": "Jasper",
+          "text": "Keep at it. That snake's still out there sweet-talking folks out of their savings.",
+          "endConversation": true
+        }
+      }
+    }
+  ]
+}
