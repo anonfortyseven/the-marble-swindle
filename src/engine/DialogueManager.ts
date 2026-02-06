@@ -203,7 +203,7 @@ async function handleAutoAdvance(node: DialogueNode): Promise<void> {
 }
 
 function endDialogue(): void {
-  const tree = currentTree;
+  const tree = currentTree ?? undefined;
   currentTree = null;
   currentNode = null;
   isDialogueActive = false;
